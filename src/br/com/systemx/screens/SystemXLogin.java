@@ -12,18 +12,23 @@ public class SystemXLogin extends javax.swing.JFrame {
     ResultSet rs = null;
 
     public void login() {
+        String user = new String(textUser.getText());
+        String pass = new String(textPass.getPassword());
         String sql = "select * from tbusuarios where login = ? and senha = ?";
-
+        
         try {
             pst = connect.prepareStatement(sql);
-            pst.setString(1, textUser.getText());
-            pst.setString(2, textPass.getText());
+            pst.setString(1, user);
+            pst.setString(2, pass);
 
             rs = pst.executeQuery();
 
             if (rs.next()) {
                 SystemXHome home = new SystemXHome();
                 home.setVisible(true);
+                
+                this.dispose();
+                connect.close();
             } else {
                 JOptionPane.showMessageDialog(null,
                         "Login Inválido!\n\n"
@@ -51,12 +56,11 @@ public class SystemXLogin extends javax.swing.JFrame {
 
         if (connect != null) {
             dbStatus.setIcon(new ImageIcon(getClass().getResource("/br/com/systemx/icons/dbok.png")));
-        } else {
-        }
+        } else {}
     }
 
     public void verifyEmptyFields() {
-        if (textUser.getText().equals("") || textPass.getText().equals("")) {
+        if (textUser.getText().equals("") || textPass.getPassword().equals("")) {
             JOptionPane.showMessageDialog(null,
                     "Campos Vazio! \n\n"
                     + "Informe o Usuario e Senha \n"
@@ -79,7 +83,7 @@ public class SystemXLogin extends javax.swing.JFrame {
         textPass = new javax.swing.JPasswordField();
         dbStatus = new javax.swing.JLabel();
         btnLogin = new javax.swing.JButton();
-        jLabel1 = new javax.swing.JLabel();
+        keyIcon = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("SystemX - (V 1.0) - Login");
@@ -87,7 +91,7 @@ public class SystemXLogin extends javax.swing.JFrame {
         setResizable(false);
 
         textInstruction.setFont(new java.awt.Font("Tw Cen MT Condensed", 0, 18)); // NOI18N
-        textInstruction.setText("Entre com seus dados corretamente para acessar o sistema");
+        textInstruction.setText("Entre Com Seus Dados Corretamente Para Acessar o Sistema.");
 
         lblUser.setFont(new java.awt.Font("Tw Cen MT Condensed", 0, 22)); // NOI18N
         lblUser.setText("Usuario:");
@@ -102,6 +106,7 @@ public class SystemXLogin extends javax.swing.JFrame {
         dbStatus.setIcon(new javax.swing.ImageIcon(getClass().getResource("/br/com/systemx/icons/dberror.png"))); // NOI18N
 
         btnLogin.setFont(new java.awt.Font("Tw Cen MT Condensed", 0, 22)); // NOI18N
+        btnLogin.setIcon(new javax.swing.ImageIcon(getClass().getResource("/br/com/systemx/icons/user.png"))); // NOI18N
         btnLogin.setText(" Entrar");
         btnLogin.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -109,17 +114,17 @@ public class SystemXLogin extends javax.swing.JFrame {
             }
         });
 
-        jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/br/com/systemx/icons/logo.png"))); // NOI18N
+        keyIcon.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        keyIcon.setIcon(new javax.swing.ImageIcon(getClass().getResource("/br/com/systemx/icons/key.png"))); // NOI18N
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(61, 61, 61)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(46, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel1)
+                    .addComponent(keyIcon)
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                         .addComponent(lblUser)
                         .addComponent(lblPass)
@@ -128,18 +133,18 @@ public class SystemXLogin extends javax.swing.JFrame {
                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(btnLogin))
                         .addComponent(textPass, javax.swing.GroupLayout.Alignment.TRAILING)
-                        .addComponent(textUser, javax.swing.GroupLayout.DEFAULT_SIZE, 370, Short.MAX_VALUE)
-                        .addComponent(textInstruction, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                .addContainerGap(59, Short.MAX_VALUE))
+                        .addComponent(textUser)
+                        .addComponent(textInstruction, javax.swing.GroupLayout.PREFERRED_SIZE, 370, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(44, 44, 44))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(27, 27, 27)
-                .addComponent(jLabel1)
+                .addGap(25, 25, 25)
+                .addComponent(keyIcon)
                 .addGap(18, 18, 18)
                 .addComponent(textInstruction)
-                .addGap(26, 26, 26)
+                .addGap(30, 30, 30)
                 .addComponent(lblUser, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(textUser, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -151,7 +156,7 @@ public class SystemXLogin extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(btnLogin)
                     .addComponent(dbStatus, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(55, Short.MAX_VALUE))
+                .addContainerGap(53, Short.MAX_VALUE))
         );
 
         pack();
@@ -173,7 +178,7 @@ public class SystemXLogin extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnLogin;
     private javax.swing.JLabel dbStatus;
-    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel keyIcon;
     private javax.swing.JLabel lblPass;
     private javax.swing.JLabel lblUser;
     private javax.swing.JLabel textInstruction;
