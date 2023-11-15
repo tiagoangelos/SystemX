@@ -9,7 +9,7 @@ public class ModuleConnection {
         
         String url = "jdbc:mysql://127.0.0.1:3306/dbsystemx";
         String user = "root";
-        String password = "";
+        String password = "007201899";
         
         try {
             Class.forName(driver);

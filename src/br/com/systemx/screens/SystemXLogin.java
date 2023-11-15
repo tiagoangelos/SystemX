@@ -2,15 +2,18 @@ package br.com.systemx.screens;
 
 import java.sql.*;
 import br.com.systemx.dal.ModuleConnection;
+import java.awt.Color;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 
 public class SystemXLogin extends javax.swing.JFrame {
-
+    
+    SystemXHome home = new SystemXHome();
+    
     Connection connect = null;
     PreparedStatement pst = null;
-    ResultSet rs = null;
-
+    ResultSet resultSet = null;
+        
     public void login() {
         String user = new String(textUser.getText());
         String pass = new String(textPass.getPassword());
@@ -21,14 +24,26 @@ public class SystemXLogin extends javax.swing.JFrame {
             pst.setString(1, user);
             pst.setString(2, pass);
 
-            rs = pst.executeQuery();
+            resultSet = pst.executeQuery();
 
-            if (rs.next()) {
-                SystemXHome home = new SystemXHome();
-                home.setVisible(true);
+            if (resultSet.next()) {
+                String profile = resultSet.getString(6);
+                
+                if(profile.equals("admin")){
+                    home.menuUser.setEnabled(true);
+                    home.menuReport.setEnabled(true);
+                    home.lblUser.setForeground(Color.RED);
+                }else{
+                    home.menuUser.setEnabled(false);
+                    home.menuReport.setEnabled(false);
+                    home.lblUser.setForeground(Color.BLACK);
+                }
+                                
+                home.lblUser.setText(resultSet.getString(2));
                 
                 this.dispose();
                 connect.close();
+                home.setVisible(true);
             } else {
                 JOptionPane.showMessageDialog(null,
                         "Login Inválido!\n\n"
@@ -76,14 +91,17 @@ public class SystemXLogin extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        mainPanel = new javax.swing.JPanel();
+        headerPanel = new javax.swing.JPanel();
         textInstruction = new javax.swing.JLabel();
+        logoSystemX = new javax.swing.JLabel();
+        loginPanel = new javax.swing.JPanel();
         lblUser = new javax.swing.JLabel();
         textUser = new javax.swing.JTextField();
         lblPass = new javax.swing.JLabel();
         textPass = new javax.swing.JPasswordField();
         dbStatus = new javax.swing.JLabel();
         btnLogin = new javax.swing.JButton();
-        keyIcon = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("SystemX - (V 1.0) - Login");
@@ -92,6 +110,31 @@ public class SystemXLogin extends javax.swing.JFrame {
 
         textInstruction.setFont(new java.awt.Font("Tw Cen MT Condensed", 0, 18)); // NOI18N
         textInstruction.setText("Entre Com Seus Dados Corretamente Para Acessar o Sistema.");
+
+        logoSystemX.setIcon(new javax.swing.ImageIcon(getClass().getResource("/br/com/systemx/icons/logo-login.png"))); // NOI18N
+
+        javax.swing.GroupLayout headerPanelLayout = new javax.swing.GroupLayout(headerPanel);
+        headerPanel.setLayout(headerPanelLayout);
+        headerPanelLayout.setHorizontalGroup(
+            headerPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(headerPanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(headerPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(logoSystemX, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(headerPanelLayout.createSequentialGroup()
+                        .addComponent(textInstruction, javax.swing.GroupLayout.PREFERRED_SIZE, 370, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE)))
+                .addContainerGap())
+        );
+        headerPanelLayout.setVerticalGroup(
+            headerPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(headerPanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(logoSystemX)
+                .addGap(12, 12, 12)
+                .addComponent(textInstruction)
+                .addContainerGap(12, Short.MAX_VALUE))
+        );
 
         lblUser.setFont(new java.awt.Font("Tw Cen MT Condensed", 0, 22)); // NOI18N
         lblUser.setText("Usuario:");
@@ -106,7 +149,7 @@ public class SystemXLogin extends javax.swing.JFrame {
         dbStatus.setIcon(new javax.swing.ImageIcon(getClass().getResource("/br/com/systemx/icons/dberror.png"))); // NOI18N
 
         btnLogin.setFont(new java.awt.Font("Tw Cen MT Condensed", 0, 22)); // NOI18N
-        btnLogin.setIcon(new javax.swing.ImageIcon(getClass().getResource("/br/com/systemx/icons/user.png"))); // NOI18N
+        btnLogin.setIcon(new javax.swing.ImageIcon(getClass().getResource("/br/com/systemx/icons/user-login.png"))); // NOI18N
         btnLogin.setText(" Entrar");
         btnLogin.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -114,37 +157,27 @@ public class SystemXLogin extends javax.swing.JFrame {
             }
         });
 
-        keyIcon.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        keyIcon.setIcon(new javax.swing.ImageIcon(getClass().getResource("/br/com/systemx/icons/key.png"))); // NOI18N
-
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(46, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(keyIcon)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                        .addComponent(lblUser)
-                        .addComponent(lblPass)
-                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                            .addComponent(dbStatus)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(btnLogin))
-                        .addComponent(textPass, javax.swing.GroupLayout.Alignment.TRAILING)
-                        .addComponent(textUser)
-                        .addComponent(textInstruction, javax.swing.GroupLayout.PREFERRED_SIZE, 370, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(44, 44, 44))
+        javax.swing.GroupLayout loginPanelLayout = new javax.swing.GroupLayout(loginPanel);
+        loginPanel.setLayout(loginPanelLayout);
+        loginPanelLayout.setHorizontalGroup(
+            loginPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(loginPanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(loginPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(textUser)
+                    .addGroup(loginPanelLayout.createSequentialGroup()
+                        .addComponent(dbStatus)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(btnLogin))
+                    .addComponent(textPass)
+                    .addComponent(lblUser, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(lblPass, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
         );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(25, 25, 25)
-                .addComponent(keyIcon)
-                .addGap(18, 18, 18)
-                .addComponent(textInstruction)
-                .addGap(30, 30, 30)
+        loginPanelLayout.setVerticalGroup(
+            loginPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(loginPanelLayout.createSequentialGroup()
+                .addGap(15, 15, 15)
                 .addComponent(lblUser, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(textUser, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -153,10 +186,42 @@ public class SystemXLogin extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(textPass, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(33, 33, 33)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(btnLogin)
-                    .addComponent(dbStatus, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(53, Short.MAX_VALUE))
+                .addGroup(loginPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(dbStatus, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnLogin))
+                .addContainerGap(37, Short.MAX_VALUE))
+        );
+
+        javax.swing.GroupLayout mainPanelLayout = new javax.swing.GroupLayout(mainPanel);
+        mainPanel.setLayout(mainPanelLayout);
+        mainPanelLayout.setHorizontalGroup(
+            mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(mainPanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(headerPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(loginPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
+        );
+        mainPanelLayout.setVerticalGroup(
+            mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(mainPanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(headerPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(loginPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+
+        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
+        getContentPane().setLayout(layout);
+        layout.setHorizontalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(mainPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        );
+        layout.setVerticalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(mainPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
         pack();
@@ -178,9 +243,12 @@ public class SystemXLogin extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnLogin;
     private javax.swing.JLabel dbStatus;
-    private javax.swing.JLabel keyIcon;
+    private javax.swing.JPanel headerPanel;
     private javax.swing.JLabel lblPass;
     private javax.swing.JLabel lblUser;
+    private javax.swing.JPanel loginPanel;
+    private javax.swing.JLabel logoSystemX;
+    private javax.swing.JPanel mainPanel;
     private javax.swing.JLabel textInstruction;
     private javax.swing.JPasswordField textPass;
     private javax.swing.JTextField textUser;
