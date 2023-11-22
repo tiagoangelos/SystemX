@@ -8,12 +8,27 @@ import javax.swing.JOptionPane;
 
 public class SystemXLogin extends javax.swing.JFrame {
     
-    SystemXHome home = new SystemXHome();
+    SystemXHome systemXHome = new SystemXHome();
     
     Connection connect = null;
     PreparedStatement pst = null;
     ResultSet resultSet = null;
-        
+    
+    public SystemXLogin() {
+        initComponents();
+        connectDataBase();
+    }
+    
+    public void connectDataBase(){
+        connect = ModuleConnection.conector();
+
+        if (connect != null) {
+            dbStatus.setIcon(new ImageIcon(getClass().getResource("/br/com/systemx/icons/dbok.png")));
+        } else {
+            dbStatus.setIcon(new ImageIcon(getClass().getResource("/br/com/systemx/icons/dberror.png")));
+        }
+    }
+    
     public void login() {
         String user = new String(textUser.getText());
         String pass = new String(textPass.getPassword());
@@ -30,20 +45,20 @@ public class SystemXLogin extends javax.swing.JFrame {
                 String profile = resultSet.getString(6);
                 
                 if(profile.equals("admin")){
-                    home.menuUser.setEnabled(true);
-                    home.menuReport.setEnabled(true);
-                    home.lblUser.setForeground(Color.RED);
+                    systemXHome.menuUser.setEnabled(true);
+                    systemXHome.menuReport.setEnabled(true);
+                    systemXHome.lblUser.setForeground(Color.RED);
                 }else{
-                    home.menuUser.setEnabled(false);
-                    home.menuReport.setEnabled(false);
-                    home.lblUser.setForeground(Color.BLACK);
+                    systemXHome.menuUser.setEnabled(false);
+                    systemXHome.menuReport.setEnabled(false);
+                    systemXHome.lblUser.setForeground(Color.BLACK);
                 }
                                 
-                home.lblUser.setText(resultSet.getString(2));
+                systemXHome.lblUser.setText(resultSet.getString(2));
                 
                 this.dispose();
                 connect.close();
-                home.setVisible(true);
+                systemXHome.setVisible(true);
             } else {
                 JOptionPane.showMessageDialog(null,
                         "Login Inválido!\n\n"
@@ -52,6 +67,8 @@ public class SystemXLogin extends javax.swing.JFrame {
                         + "Ou Fale Com o Administrador Do Sistema.",
                         "Login Inválido!", JOptionPane.ERROR_MESSAGE
                 );
+                
+                
             }
         } catch (Exception ex) {
             JOptionPane.showMessageDialog(null,
@@ -61,17 +78,9 @@ public class SystemXLogin extends javax.swing.JFrame {
                     + "Do Sistema!",
                     "Sistema Indiponível", JOptionPane.ERROR_MESSAGE
             );
+            
+            connectDataBase();
         }
-    }
-
-    public SystemXLogin() {
-        initComponents();
-
-        connect = ModuleConnection.conector();
-
-        if (connect != null) {
-            dbStatus.setIcon(new ImageIcon(getClass().getResource("/br/com/systemx/icons/dbok.png")));
-        } else {}
     }
 
     public void verifyEmptyFields() {
