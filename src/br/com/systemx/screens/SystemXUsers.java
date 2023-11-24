@@ -351,13 +351,12 @@ public class SystemXUsers extends javax.swing.JInternalFrame {
         
         try {        
             pst = connect.prepareStatement(sql);
-            pst.setString(1, id);
-            pst.setString(2, user);
-            pst.setString(3, phone);
-            pst.setString(4, login);
-            pst.setString(5, password);
-            pst.setString(6, profile);
-            pst.setString(7, id);
+            pst.setString(1, user);
+            pst.setString(2, phone);
+            pst.setString(3, login);
+            pst.setString(4, password);
+            pst.setString(5, profile);
+            pst.setString(6, id);
             
             pst.executeUpdate();
             
@@ -380,7 +379,32 @@ public class SystemXUsers extends javax.swing.JInternalFrame {
     }
     
     public void delete(){
+        String sql = "delete from tbusuarios where iduser = ?";
         
+        String id = idUser.getText();
+        
+        try {        
+            pst = connect.prepareStatement(sql);
+            pst.setString(1, id);            
+            pst.execute();
+            
+            JOptionPane.showMessageDialog(null,
+                "Usúario Apagado \n\n"
+              + "Usúario Apagado Com Sucesso! \n"
+              ,"Usúario Apagado", JOptionPane.INFORMATION_MESSAGE
+            );
+            
+            clearFields();
+        }catch(Exception ex){
+            JOptionPane.showMessageDialog(null,
+                    "Sistema Indiponível \n\n"
+                    + "Verifique Sua Conexão Com a Internet \n"
+                    + "Ou Entre em Contato com o Desenvolvedor \n"
+                    + "Do Sistema!",
+                    "Sistema Indiponível", JOptionPane.ERROR_MESSAGE
+            );     
+            connectDataBase();
+        }
     }
      
     // Variables declaration - do not modify//GEN-BEGIN:variables
