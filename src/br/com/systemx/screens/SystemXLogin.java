@@ -19,7 +19,7 @@ public class SystemXLogin extends javax.swing.JFrame {
         connectDataBase();
     }
     
-    public void connectDataBase(){
+    private void connectDataBase(){
         connect = ModuleConnection.conector();
 
         if (connect != null) {
@@ -30,9 +30,9 @@ public class SystemXLogin extends javax.swing.JFrame {
     }
     
     public void login() {
+        String sql = "select * from tbusuarios where login = ? and senha = ?";
         String user = new String(textUser.getText());
         String pass = new String(textPass.getPassword());
-        String sql = "select * from tbusuarios where login = ? and senha = ?";
         
         try {
             pst = connect.prepareStatement(sql);

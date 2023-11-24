@@ -1,12 +1,23 @@
 package br.com.systemx.screens;
 
-import javax.swing.ImageIcon;
+import java.sql.*;
+import br.com.systemx.dal.ModuleConnection;
+import javax.swing.JOptionPane;
 
 public class SystemXUsers extends javax.swing.JInternalFrame {
-
+    
+    Connection connect = null;
+    PreparedStatement pst = null;
+    ResultSet resultSet = null;
+    
     public SystemXUsers() {
         initComponents();
         setFrameIcon(new javax.swing.ImageIcon(getClass().getResource("/br/com/systemx/icons/users-logo.png")));
+        connectDataBase();
+    }
+    
+    private void connectDataBase(){
+        connect = ModuleConnection.conector();
     }
 
     @SuppressWarnings("unchecked")
@@ -29,6 +40,7 @@ public class SystemXUsers extends javax.swing.JInternalFrame {
         btnRead = new javax.swing.JButton();
         btnUpdate = new javax.swing.JButton();
         btnDelete = new javax.swing.JButton();
+        jLabel1 = new javax.swing.JLabel();
 
         setClosable(true);
         setIconifiable(true);
@@ -37,12 +49,12 @@ public class SystemXUsers extends javax.swing.JInternalFrame {
         setPreferredSize(new java.awt.Dimension(682, 582));
 
         lblId.setFont(new java.awt.Font("Tw Cen MT Condensed", 0, 22)); // NOI18N
-        lblId.setText("Id");
+        lblId.setText("Id*");
 
         idUser.setFont(new java.awt.Font("Tw Cen MT Condensed", 0, 22)); // NOI18N
 
         lblName.setFont(new java.awt.Font("Tw Cen MT Condensed", 0, 22)); // NOI18N
-        lblName.setText("Nome");
+        lblName.setText("Nome*");
 
         nameUser.setFont(new java.awt.Font("Tw Cen MT Condensed", 0, 22)); // NOI18N
 
@@ -52,12 +64,12 @@ public class SystemXUsers extends javax.swing.JInternalFrame {
         phoneUser.setFont(new java.awt.Font("Tw Cen MT Condensed", 0, 22)); // NOI18N
 
         lblUser.setFont(new java.awt.Font("Tw Cen MT Condensed", 0, 22)); // NOI18N
-        lblUser.setText("Login");
+        lblUser.setText("Login*");
 
         loginUser.setFont(new java.awt.Font("Tw Cen MT Condensed", 0, 22)); // NOI18N
 
         lblPass.setFont(new java.awt.Font("Tw Cen MT Condensed", 0, 22)); // NOI18N
-        lblPass.setText("Senha");
+        lblPass.setText("Senha*");
 
         passUser.setFont(new java.awt.Font("Tw Cen MT Condensed", 0, 22)); // NOI18N
 
@@ -72,32 +84,63 @@ public class SystemXUsers extends javax.swing.JInternalFrame {
         btnCreate.setText("Cadastrar");
         btnCreate.setToolTipText("Cadastrar");
         btnCreate.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnCreate.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCreateActionPerformed(evt);
+            }
+        });
 
         btnRead.setFont(new java.awt.Font("Tw Cen MT Condensed", 0, 18)); // NOI18N
         btnRead.setIcon(new javax.swing.ImageIcon(getClass().getResource("/br/com/systemx/icons/read.png"))); // NOI18N
         btnRead.setText("Pesquisar");
         btnRead.setToolTipText("Pesquisar");
         btnRead.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnRead.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnReadActionPerformed(evt);
+            }
+        });
 
         btnUpdate.setFont(new java.awt.Font("Tw Cen MT Condensed", 0, 18)); // NOI18N
         btnUpdate.setIcon(new javax.swing.ImageIcon(getClass().getResource("/br/com/systemx/icons/update.png"))); // NOI18N
         btnUpdate.setText("Atualizar");
         btnUpdate.setToolTipText("Atualizar");
         btnUpdate.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnUpdate.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnUpdateActionPerformed(evt);
+            }
+        });
 
         btnDelete.setFont(new java.awt.Font("Tw Cen MT Condensed", 0, 16)); // NOI18N
         btnDelete.setIcon(new javax.swing.ImageIcon(getClass().getResource("/br/com/systemx/icons/delete.png"))); // NOI18N
         btnDelete.setText("Apagar");
         btnDelete.setToolTipText("Apagar");
         btnDelete.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnDelete.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnDeleteActionPerformed(evt);
+            }
+        });
+
+        jLabel1.setFont(new java.awt.Font("Tw Cen MT Condensed", 0, 20)); // NOI18N
+        jLabel1.setText(" * Campos Obrigatórios");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(15, 15, 15)
+                .addGap(21, 21, 21)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(btnCreate)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(btnRead)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(btnUpdate)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btnDelete))
                     .addComponent(lblUser)
                     .addComponent(lblPass)
                     .addGroup(layout.createSequentialGroup()
@@ -108,32 +151,26 @@ public class SystemXUsers extends javax.swing.JInternalFrame {
                             .addComponent(lblId))
                         .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(idUser, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jComboProfile, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(nameUser, javax.swing.GroupLayout.PREFERRED_SIZE, 430, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(phoneUser, javax.swing.GroupLayout.PREFERRED_SIZE, 260, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                 .addComponent(passUser)
-                                .addComponent(loginUser, javax.swing.GroupLayout.PREFERRED_SIZE, 260, javax.swing.GroupLayout.PREFERRED_SIZE)))))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(btnCreate)
-                .addGap(18, 18, 18)
-                .addComponent(btnRead)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 27, Short.MAX_VALUE)
-                .addComponent(btnUpdate)
-                .addGap(18, 18, 18)
-                .addComponent(btnDelete)
-                .addGap(14, 14, 14))
+                                .addComponent(loginUser, javax.swing.GroupLayout.PREFERRED_SIZE, 260, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(idUser, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 364, Short.MAX_VALUE)
+                                .addComponent(jLabel1)))))
+                .addGap(24, 24, 24))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(48, 48, 48)
+                .addGap(37, 37, 37)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lblId)
-                    .addComponent(idUser, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(idUser, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(37, 37, 37)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(nameUser)
@@ -154,7 +191,7 @@ public class SystemXUsers extends javax.swing.JInternalFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jComboProfile, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(lblProfile, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 43, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 53, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnRead)
                     .addComponent(btnCreate)
@@ -166,6 +203,186 @@ public class SystemXUsers extends javax.swing.JInternalFrame {
         setBounds(0, 0, 682, 582);
     }// </editor-fold>//GEN-END:initComponents
 
+    private void btnCreateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCreateActionPerformed
+        create();
+    }//GEN-LAST:event_btnCreateActionPerformed
+
+    private void btnReadActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnReadActionPerformed
+        read();
+    }//GEN-LAST:event_btnReadActionPerformed
+
+    private void btnUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateActionPerformed
+        update();
+    }//GEN-LAST:event_btnUpdateActionPerformed
+
+    private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
+        delete();
+    }//GEN-LAST:event_btnDeleteActionPerformed
+    
+    private void clearFields(){
+        nameUser.setText(null);
+        phoneUser.setText(null);
+        loginUser.setText(null);
+        passUser.setText(null);
+        
+        jComboProfile.setSelectedIndex(0);
+    }
+        
+    private void create(){
+        String sql = "insert into tbusuarios (iduser, usuario, fone, login, senha, perfil) values (?, ?, ?, ?, ?, ?)";
+        
+        String id = idUser.getText();
+        String user = nameUser.getText();
+        String phone = phoneUser.getText();
+        String login = loginUser.getText();
+        String password = passUser.getText();
+        String profile = Integer.toString(jComboProfile.getSelectedIndex());
+        
+        if(profile.equals("0")){
+            profile = "admin";
+        }else{
+            profile = "user";
+        }
+        
+        if(idUser.getText().isEmpty() || nameUser.getText().isEmpty() || loginUser.getText().isEmpty() || passUser.getText().isEmpty()){
+            JOptionPane.showMessageDialog(null,
+                    "Campos Vazio\n\n"
+                    + "Preencha todos os campos Obrigatórios (*)\n"
+                    ,"Campos Vazio", JOptionPane.ERROR_MESSAGE
+            );
+            
+            return;
+        }
+        
+        try{
+            pst = connect.prepareStatement(sql);
+            pst.setString(1, id);
+            pst.setString(2, user);
+            pst.setString(3, phone);
+            pst.setString(4, login);
+            pst.setString(5, password);
+            pst.setString(6, profile);
+            
+            pst.executeUpdate();
+            
+            JOptionPane.showMessageDialog(null,
+                "Usúario Cadastrado \n\n"
+              + "O Usúario Foi Cadastrado Com Sucesso! \n"
+              ,"Usúario Cadastrado", JOptionPane.INFORMATION_MESSAGE
+            );
+                
+            clearFields();            
+        }catch(Exception ex){
+            JOptionPane.showMessageDialog(null,
+                    "Usúario Já Existe\n\n"
+                    + "Este usúario já está cadastrado\n"
+                    + "não pode existir dois usuarios \n"
+                    + "com o mesmo id ou usúario!",
+                    "Usúario Já Existe", JOptionPane.ERROR_MESSAGE
+            );     
+        }
+    }
+    
+    private void read(){
+        String sql = "select * from tbusuarios where iduser = ?";
+        String id = idUser.getText();
+        
+        try {
+            pst = connect.prepareStatement(sql);
+            pst.setString(1, id);
+            resultSet = pst.executeQuery();
+            
+            if(resultSet.next()){
+                String name = resultSet.getString(2);
+                String phone = resultSet.getString(3);
+                String login = resultSet.getString(4);
+                String password = resultSet.getString(5);
+                String profile = resultSet.getString(6);
+                
+                nameUser.setText(name);
+                phoneUser.setText(phone);
+                loginUser.setText(login);
+                passUser.setText(password);
+                
+                if(profile.equals("admin")){
+                    jComboProfile.setSelectedIndex(0);
+                }else{
+                    jComboProfile.setSelectedIndex(1);
+                }
+            }else{
+                JOptionPane.showMessageDialog(null,
+                    "Usuário Não Encontrado \n\n"
+                    + "O usúario pesquisado não existe! \n"
+                    + "Verifique se os dados estão corretos... \n"
+                    ,"Usuário Não Encontrado", JOptionPane.ERROR_MESSAGE
+                );
+                
+                clearFields();
+            }
+            
+        }catch (Exception ex){
+            JOptionPane.showMessageDialog(null,
+                    "Sistema Indiponível \n\n"
+                    + "Verifique Sua Conexão Com a Internet \n"
+                    + "Ou Entre em Contato com o Desenvolvedor \n"
+                    + "Do Sistema!",
+                    "Sistema Indiponível", JOptionPane.ERROR_MESSAGE
+            );     
+            clearFields();
+            connectDataBase();
+        }
+    }
+    
+    public void update(){
+        String sql = "update tbusuarios set usuario = ?, fone = ?, login = ?, senha = ?, perfil = ? where iduser = ?";
+        
+        String id = idUser.getText();
+        String user = nameUser.getText();
+        String phone = phoneUser.getText();
+        String login = loginUser.getText();
+        String password = passUser.getText();
+        String profile = Integer.toString(jComboProfile.getSelectedIndex());
+        
+        if(profile.equals("0")){
+            profile = "admin";
+        }else{
+            profile = "user";
+        }
+        
+        try {        
+            pst = connect.prepareStatement(sql);
+            pst.setString(1, id);
+            pst.setString(2, user);
+            pst.setString(3, phone);
+            pst.setString(4, login);
+            pst.setString(5, password);
+            pst.setString(6, profile);
+            pst.setString(7, id);
+            
+            pst.executeUpdate();
+            
+            JOptionPane.showMessageDialog(null,
+                "Dados Atualizados \n\n"
+              + "Dados Atualizados Com Sucesso! \n"
+              ,"Dados Atualizados", JOptionPane.INFORMATION_MESSAGE
+            );
+            
+        }catch(Exception ex){
+            JOptionPane.showMessageDialog(null,
+                    "Sistema Indiponível \n\n"
+                    + "Verifique Sua Conexão Com a Internet \n"
+                    + "Ou Entre em Contato com o Desenvolvedor \n"
+                    + "Do Sistema!",
+                    "Sistema Indiponível", JOptionPane.ERROR_MESSAGE
+            );     
+            connectDataBase();
+        }
+    }
+    
+    public void delete(){
+        
+    }
+     
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnCreate;
     private javax.swing.JButton btnDelete;
@@ -173,6 +390,7 @@ public class SystemXUsers extends javax.swing.JInternalFrame {
     private javax.swing.JButton btnUpdate;
     private javax.swing.JTextField idUser;
     private javax.swing.JComboBox<String> jComboProfile;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel lblId;
     private javax.swing.JLabel lblName;
     private javax.swing.JLabel lblPass;
