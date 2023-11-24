@@ -380,9 +380,18 @@ public class SystemXUsers extends javax.swing.JInternalFrame {
     
     public void delete(){
         String sql = "delete from tbusuarios where iduser = ?";
-        
         String id = idUser.getText();
         
+        int response = JOptionPane.showConfirmDialog(null, 
+                "Tem certeza que deseja apagar\n "
+              + "este usuario?"
+              , "Tem Certeza", JOptionPane.YES_NO_OPTION
+        );
+        
+        if(response != JOptionPane.YES_OPTION){
+            return;
+        }
+            
         try {        
             pst = connect.prepareStatement(sql);
             pst.setString(1, id);            
