@@ -3,6 +3,7 @@ package br.com.systemx.screens;
 import java.sql.*;
 import br.com.systemx.dal.ModuleConnection;
 import javax.swing.JOptionPane;
+import net.proteanit.sql.DbUtils;
 
 public class SystemXClient extends javax.swing.JInternalFrame {
     
@@ -94,10 +95,15 @@ public class SystemXClient extends javax.swing.JInternalFrame {
         });
 
         searchUser.setFont(new java.awt.Font("Tw Cen MT Condensed", 0, 22)); // NOI18N
+        searchUser.setToolTipText("Pesquisar");
+        searchUser.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                searchUserKeyReleased(evt);
+            }
+        });
 
         btnSearch.setIcon(new javax.swing.ImageIcon(getClass().getResource("/br/com/systemx/icons/search.png"))); // NOI18N
-        btnSearch.setToolTipText("Pesquisar");
-        btnSearch.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnSearch.setToolTipText("");
 
         tableUsers.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -110,6 +116,11 @@ public class SystemXClient extends javax.swing.JInternalFrame {
                 "Nome", "Endereço", "Telefone", "Email"
             }
         ));
+        tableUsers.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tableUsersMouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(tableUsers);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -195,6 +206,49 @@ public class SystemXClient extends javax.swing.JInternalFrame {
     private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
         delete();
     }//GEN-LAST:event_btnDeleteActionPerformed
+
+    private void searchUserKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_searchUserKeyReleased
+        searchClient();
+    }//GEN-LAST:event_searchUserKeyReleased
+
+    private void tableUsersMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tableUsersMouseClicked
+        setFieldsClient();
+    }//GEN-LAST:event_tableUsersMouseClicked
+    
+    private void setFieldsClient(){
+        int setFields = tableUsers.getSelectedRow();
+        
+        String name = tableUsers.getModel().getValueAt(setFields, 1).toString();
+        String address = tableUsers.getModel().getValueAt(setFields, 2).toString();
+        String phone = tableUsers.getModel().getValueAt(setFields, 3).toString();
+        String email = tableUsers.getModel().getValueAt(setFields, 4).toString();
+        
+        nameUser.setText(name);
+        addressUser.setText(address);
+        phoneUser.setText(phone);
+        emailUser.setText(email);
+    }
+    
+    private void searchClient(){
+        String sql = "select * from dbsystemx.tbclientes where nomecli like ?";        
+        String client = searchUser.getText();
+        
+        try {
+            pst = connect.prepareStatement(sql);
+            pst.setString(1, client + "%");
+            resultSet = pst.executeQuery();
+            
+            tableUsers.setModel(DbUtils.resultSetToTableModel(resultSet));
+        } catch (Exception ex){
+            JOptionPane.showMessageDialog(null,
+                    "Erro Ao Pesquisar\n\n"
+                    + "Ocorreu um erro inesperado ao\n"
+                    + "tentar Pesquisar, Reinicie o sistema\n"
+                    + "e tente novamente!",
+                    "Erro Ao Pesquisar", JOptionPane.ERROR_MESSAGE
+            ); 
+        }
+    }
     
     private void clearFields(){
         nameUser.setText(null);
@@ -205,7 +259,6 @@ public class SystemXClient extends javax.swing.JInternalFrame {
     
     private void create(){
         String sql = "insert into tbclientes (nomecli, endcli, fonecli, emailcli) values (?, ?, ?, ?)";
-        
         String name = nameUser.getText();
         String address = addressUser.getText();
         String phone = phoneUser.getText();
@@ -214,7 +267,7 @@ public class SystemXClient extends javax.swing.JInternalFrame {
         if(nameUser.getText().isEmpty() || phoneUser.getText().isEmpty()){
             JOptionPane.showMessageDialog(null,
                     "Campos Vazio\n\n"
-                    + "Preencha todos os campos Obrigatórios (*)\n"
+                    + "Preencha todos os campos obrigatórios (*)\n"
                     ,"Campos Vazio", JOptionPane.ERROR_MESSAGE
             );
             return;
@@ -231,7 +284,7 @@ public class SystemXClient extends javax.swing.JInternalFrame {
             
             JOptionPane.showMessageDialog(null,
                 "Cliente Cadastrado \n\n"
-              + "O Cliente Foi Cadastrado Com Sucesso! \n"
+              + "O cliente foi cadastrado com sucesso! \n"
               ,"Cliente Cadastrado", JOptionPane.INFORMATION_MESSAGE
             );
                 

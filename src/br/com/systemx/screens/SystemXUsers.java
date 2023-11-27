@@ -233,7 +233,6 @@ public class SystemXUsers extends javax.swing.JInternalFrame {
         
     private void create(){
         String sql = "insert into tbusuarios (iduser, usuario, fone, login, senha, perfil) values (?, ?, ?, ?, ?, ?)";
-        
         String id = idUser.getText();
         String user = nameUser.getText();
         String phone = phoneUser.getText();
@@ -250,7 +249,7 @@ public class SystemXUsers extends javax.swing.JInternalFrame {
         if(idUser.getText().isEmpty() || nameUser.getText().isEmpty() || loginUser.getText().isEmpty() || passUser.getText().isEmpty()){
             JOptionPane.showMessageDialog(null,
                     "Campos Vazio\n\n"
-                    + "Preencha todos os campos Obrigatórios (*)\n"
+                    + "Preencha todos os campos obrigatórios (*)\n"
                     ,"Campos Vazio", JOptionPane.ERROR_MESSAGE
             );
             
@@ -270,7 +269,7 @@ public class SystemXUsers extends javax.swing.JInternalFrame {
             
             JOptionPane.showMessageDialog(null,
                 "Usúario Cadastrado \n\n"
-              + "O Usúario Foi Cadastrado Com Sucesso! \n"
+              + "O usúario foi cadastrado com sucesso! \n"
               ,"Usúario Cadastrado", JOptionPane.INFORMATION_MESSAGE
             );
                 
@@ -326,9 +325,9 @@ public class SystemXUsers extends javax.swing.JInternalFrame {
         }catch (Exception ex){
             JOptionPane.showMessageDialog(null,
                     "Sistema Indiponível \n\n"
-                    + "Verifique Sua Conexão Com a Internet \n"
-                    + "Ou Entre em Contato com o Desenvolvedor \n"
-                    + "Do Sistema!",
+                    + "Verifique sua conexão com a internet \n"
+                    + "ou entre em contato com o desenvolvedor \n"
+                    + "do sistema!",
                     "Sistema Indiponível", JOptionPane.ERROR_MESSAGE
             );     
             clearFields();
@@ -337,8 +336,7 @@ public class SystemXUsers extends javax.swing.JInternalFrame {
     }
     
     public void update(){
-        String sql = "update tbusuarios set usuario = ?, fone = ?, login = ?, senha = ?, perfil = ? where iduser = ?";
-        
+        String sql = "update tbusuarios set usuario = ?, fone = ?, login = ?, senha = ?, perfil = ? where iduser = ?";    
         String id = idUser.getText();
         String user = nameUser.getText();
         String phone = phoneUser.getText();
@@ -365,16 +363,16 @@ public class SystemXUsers extends javax.swing.JInternalFrame {
             
             JOptionPane.showMessageDialog(null,
                 "Dados Atualizados \n\n"
-              + "Dados Atualizados Com Sucesso! \n"
+              + "Dados atualizados com sucesso! \n"
               ,"Dados Atualizados", JOptionPane.INFORMATION_MESSAGE
             );
             
         }catch(Exception ex){
             JOptionPane.showMessageDialog(null,
                     "Sistema Indiponível \n\n"
-                    + "Verifique Sua Conexão Com a Internet \n"
-                    + "Ou Entre em Contato com o Desenvolvedor \n"
-                    + "Do Sistema!",
+                    + "Verifique sua conexão com a internet \n"
+                    + "ou entre em contato com o desenvolvedor \n"
+                    + "do sistema!",
                     "Sistema Indiponível", JOptionPane.ERROR_MESSAGE
             );     
             connectDataBase();
@@ -402,7 +400,7 @@ public class SystemXUsers extends javax.swing.JInternalFrame {
             
             JOptionPane.showMessageDialog(null,
                 "Usúario Apagado \n\n"
-              + "Usúario Apagado Com Sucesso! \n"
+              + "usúario apagado com sucesso! \n"
               ,"Usúario Apagado", JOptionPane.INFORMATION_MESSAGE
             );
             
@@ -410,11 +408,11 @@ public class SystemXUsers extends javax.swing.JInternalFrame {
         }catch(Exception ex){
             JOptionPane.showMessageDialog(null,
                     "Sistema Indiponível \n\n"
-                    + "Verifique Sua Conexão Com a Internet \n"
-                    + "Ou Entre em Contato com o Desenvolvedor \n"
-                    + "Do Sistema!",
+                    + "Verifique sua conexão com a internet \n"
+                    + "ou entre em contato com o desenvolvedor \n"
+                    + "do sistema!",
                     "Sistema Indiponível", JOptionPane.ERROR_MESSAGE
-            );     
+            );    
             connectDataBase();
         }
     }
