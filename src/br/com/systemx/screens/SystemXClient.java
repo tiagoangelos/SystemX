@@ -301,11 +301,92 @@ public class SystemXClient extends javax.swing.JInternalFrame {
     }
     
     private void update(){
+        int setFields = tableUsers.getSelectedRow();
+        String sql = "update tbclientes set nomecli = ?, endcli = ?, fonecli = ?, emailcli = ? where idcli = ?";    
         
+        String idCli = tableUsers.getModel().getValueAt(setFields, 0).toString();
+        String name = nameUser.getText();
+        String address = addressUser.getText();
+        String phone = phoneUser.getText();
+        String email = emailUser.getText();
+        
+        if(nameUser.getText().isEmpty() || phoneUser.getText().isEmpty()){
+            JOptionPane.showMessageDialog(null,
+                    "Campos Vazio\n\n"
+                    + "Preencha todos os campos obrigatórios (*)\n"
+                    ,"Campos Vazio", JOptionPane.ERROR_MESSAGE
+            );
+            return;
+        }
+        
+        try {        
+            pst = connect.prepareStatement(sql);
+            pst.setString(1, name);
+            pst.setString(2, address);
+            pst.setString(3, phone);
+            pst.setString(4, email);
+            pst.setString(5, idCli);
+            
+            pst.executeUpdate();
+            
+            JOptionPane.showMessageDialog(null,
+                "Dados Atualizados \n\n"
+              + "Dados atualizados com sucesso! \n"
+              ,"Dados Atualizados", JOptionPane.INFORMATION_MESSAGE
+            );
+            
+            searchClient();
+        }catch(Exception ex){
+            JOptionPane.showMessageDialog(null,
+                    "Erro ao Atualizar\n\n"
+                    + "Ocorreu um erro inesperado ao\n"
+                    + "tentar Atualizar, Reinicie o sistema\n"
+                    + "e tente novamente!",
+                    "Erro ao Atualizar", JOptionPane.ERROR_MESSAGE
+            );      
+            connectDataBase();
+        }
     }
     
     private void delete(){
+        int setFields = tableUsers.getSelectedRow();
+        String idCli = tableUsers.getModel().getValueAt(setFields, 0).toString();
         
+        String sql = "delete from tbclientes where idcli = ?";
+        
+        int response = JOptionPane.showConfirmDialog(null, 
+                "Tem certeza que deseja apagar\n "
+              + "este cliente?"
+              , "Tem Certeza", JOptionPane.YES_NO_OPTION
+        );
+        
+        if(response != JOptionPane.YES_OPTION){
+            return;
+        }
+        
+        try {        
+            pst = connect.prepareStatement(sql);
+            pst.setString(1, idCli);            
+            pst.execute();
+            
+            JOptionPane.showMessageDialog(null,
+                "Usúario Apagado \n\n"
+              + "usúario apagado com sucesso! \n"
+              ,"Usúario Apagado", JOptionPane.INFORMATION_MESSAGE
+            );
+            
+            searchClient();
+            clearFields();
+        }catch(Exception ex){
+            JOptionPane.showMessageDialog(null,
+                    "Erro ao Apagar\n\n"
+                    + "Ocorreu um erro inesperado ao\n"
+                    + "tentar Apagar, Reinicie o sistema\n"
+                    + "e tente novamente!",
+                    "Erro ao Apagar", JOptionPane.ERROR_MESSAGE
+            );     
+            connectDataBase();
+        }
     }
  
     // Variables declaration - do not modify//GEN-BEGIN:variables
