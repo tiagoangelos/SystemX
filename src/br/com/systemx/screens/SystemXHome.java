@@ -6,7 +6,10 @@ import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 
 public class SystemXHome extends javax.swing.JFrame {
-
+    
+    SystemXUsers systemXUsers = new SystemXUsers();
+    SystemXClient systemXClient = new SystemXClient();
+    
     public SystemXHome() {
         initComponents();
     }
@@ -47,7 +50,7 @@ public class SystemXHome extends javax.swing.JFrame {
         });
 
         desktopPanel.setBackground(new java.awt.Color(0, 160, 200));
-        desktopPanel.setPreferredSize(new java.awt.Dimension(650, 580));
+        desktopPanel.setPreferredSize(new java.awt.Dimension(682, 582));
 
         javax.swing.GroupLayout desktopPanelLayout = new javax.swing.GroupLayout(desktopPanel);
         desktopPanel.setLayout(desktopPanelLayout);
@@ -73,8 +76,8 @@ public class SystemXHome extends javax.swing.JFrame {
             .addGroup(iconsPanelLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(iconsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(logoSystemx, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(logoComputer, javax.swing.GroupLayout.DEFAULT_SIZE, 264, Short.MAX_VALUE))
+                    .addComponent(logoComputer, javax.swing.GroupLayout.DEFAULT_SIZE, 264, Short.MAX_VALUE)
+                    .addComponent(logoSystemx, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
         iconsPanelLayout.setVerticalGroup(
@@ -137,6 +140,11 @@ public class SystemXHome extends javax.swing.JFrame {
 
         menuClient.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_C, java.awt.event.InputEvent.ALT_DOWN_MASK));
         menuClient.setText("Cliente");
+        menuClient.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                menuClientActionPerformed(evt);
+            }
+        });
         menuRegister.add(menuClient);
 
         menuOs.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_O, java.awt.event.InputEvent.ALT_DOWN_MASK));
@@ -197,12 +205,12 @@ public class SystemXHome extends javax.swing.JFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addComponent(desktopPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 682, Short.MAX_VALUE)
+                .addComponent(desktopPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(iconsPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(userPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap())
+                    .addComponent(userPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(iconsPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -211,7 +219,7 @@ public class SystemXHome extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(userPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(4, 4, 4))
-            .addComponent(desktopPanel, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 582, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addComponent(desktopPanel, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
 
         pack();
@@ -239,10 +247,14 @@ public class SystemXHome extends javax.swing.JFrame {
     }//GEN-LAST:event_menuAboutActionPerformed
 
     private void menuUserActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuUserActionPerformed
-        SystemXUsers systemXUsers = new SystemXUsers();
         systemXUsers.setVisible(true);
         desktopPanel.add(systemXUsers);
     }//GEN-LAST:event_menuUserActionPerformed
+
+    private void menuClientActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuClientActionPerformed
+        systemXClient.setVisible(true);
+        desktopPanel.add(systemXClient);
+    }//GEN-LAST:event_menuClientActionPerformed
 
     public static void main(String args[]) {
         java.awt.EventQueue.invokeLater(new Runnable() {

@@ -12,7 +12,6 @@ public class SystemXUsers extends javax.swing.JInternalFrame {
     
     public SystemXUsers() {
         initComponents();
-        setFrameIcon(new javax.swing.ImageIcon(getClass().getResource("/br/com/systemx/icons/users-logo.png")));
         connectDataBase();
     }
     
@@ -40,12 +39,13 @@ public class SystemXUsers extends javax.swing.JInternalFrame {
         btnRead = new javax.swing.JButton();
         btnUpdate = new javax.swing.JButton();
         btnDelete = new javax.swing.JButton();
-        jLabel1 = new javax.swing.JLabel();
+        lblMandatory = new javax.swing.JLabel();
 
         setClosable(true);
         setIconifiable(true);
         setMaximizable(true);
         setTitle("Usuários");
+        setFrameIcon(new javax.swing.ImageIcon(getClass().getResource("/br/com/systemx/icons/users-logo.png"))); // NOI18N
         setPreferredSize(new java.awt.Dimension(682, 582));
 
         lblId.setFont(new java.awt.Font("Tw Cen MT Condensed", 0, 22)); // NOI18N
@@ -123,8 +123,8 @@ public class SystemXUsers extends javax.swing.JInternalFrame {
             }
         });
 
-        jLabel1.setFont(new java.awt.Font("Tw Cen MT Condensed", 0, 20)); // NOI18N
-        jLabel1.setText(" * Campos Obrigatórios");
+        lblMandatory.setFont(new java.awt.Font("Tw Cen MT Condensed", 0, 20)); // NOI18N
+        lblMandatory.setText(" * Campos Obrigatórios");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -151,17 +151,20 @@ public class SystemXUsers extends javax.swing.JInternalFrame {
                             .addComponent(lblId))
                         .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jComboProfile, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(nameUser, javax.swing.GroupLayout.PREFERRED_SIZE, 430, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(phoneUser, javax.swing.GroupLayout.PREFERRED_SIZE, 260, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                .addComponent(passUser)
-                                .addComponent(loginUser, javax.swing.GroupLayout.PREFERRED_SIZE, 260, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(idUser, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 364, Short.MAX_VALUE)
-                                .addComponent(jLabel1)))))
-                .addGap(24, 24, 24))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(lblMandatory))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jComboProfile, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(phoneUser, javax.swing.GroupLayout.PREFERRED_SIZE, 260, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                        .addComponent(passUser)
+                                        .addComponent(loginUser, javax.swing.GroupLayout.PREFERRED_SIZE, 260, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addComponent(nameUser, javax.swing.GroupLayout.PREFERRED_SIZE, 420, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(0, 149, Short.MAX_VALUE)))))
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -170,8 +173,8 @@ public class SystemXUsers extends javax.swing.JInternalFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lblId)
                     .addComponent(idUser, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(37, 37, 37)
+                    .addComponent(lblMandatory))
+                .addGap(38, 38, 38)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(nameUser)
                     .addComponent(lblName, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -423,8 +426,8 @@ public class SystemXUsers extends javax.swing.JInternalFrame {
     private javax.swing.JButton btnUpdate;
     private javax.swing.JTextField idUser;
     private javax.swing.JComboBox<String> jComboProfile;
-    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel lblId;
+    private javax.swing.JLabel lblMandatory;
     private javax.swing.JLabel lblName;
     private javax.swing.JLabel lblPass;
     private javax.swing.JLabel lblProfile;
