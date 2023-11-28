@@ -215,6 +215,13 @@ public class SystemXClient extends javax.swing.JInternalFrame {
         setFieldsClient();
     }//GEN-LAST:event_tableUsersMouseClicked
     
+    private void clearFields(){
+        nameUser.setText(null);
+        addressUser.setText(null);
+        phoneUser.setText(null);
+        emailUser.setText(null);
+    }
+        
     private void setFieldsClient(){
         int setFields = tableUsers.getSelectedRow();
         
@@ -249,14 +256,7 @@ public class SystemXClient extends javax.swing.JInternalFrame {
             ); 
         }
     }
-    
-    private void clearFields(){
-        nameUser.setText(null);
-        addressUser.setText(null);
-        phoneUser.setText(null);
-        emailUser.setText(null);
-    }
-    
+        
     private void create(){
         String sql = "insert into tbclientes (nomecli, endcli, fonecli, emailcli) values (?, ?, ?, ?)";
         String name = nameUser.getText();
@@ -336,6 +336,7 @@ public class SystemXClient extends javax.swing.JInternalFrame {
             );
             
             searchClient();
+            clearFields();
         }catch(Exception ex){
             JOptionPane.showMessageDialog(null,
                     "Erro ao Atualizar\n\n"

@@ -50,10 +50,8 @@
                       <Group type="103" groupAlignment="1" max="-2" attributes="0">
                           <Component id="addressUser" alignment="0" pref="474" max="32767" attributes="0"/>
                           <Component id="nameUser" alignment="0" max="32767" attributes="0"/>
-                          <Group type="103" alignment="0" groupAlignment="1" max="-2" attributes="0">
-                              <Component id="phoneUser" alignment="0" pref="300" max="32767" attributes="0"/>
-                              <Component id="emailUser" alignment="0" max="32767" attributes="0"/>
-                          </Group>
+                          <Component id="phoneUser" alignment="0" pref="300" max="32767" attributes="0"/>
+                          <Component id="emailUser" alignment="0" max="32767" attributes="0"/>
                       </Group>
                   </Group>
                   <Group type="103" alignment="0" groupAlignment="1" attributes="0">
