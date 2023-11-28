@@ -3,6 +3,7 @@ package br.com.systemx.screens;
 import java.sql.*;
 import br.com.systemx.dal.ModuleConnection;
 import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
 import net.proteanit.sql.DbUtils;
 
 public class SystemXClient extends javax.swing.JInternalFrame {
@@ -24,10 +25,12 @@ public class SystemXClient extends javax.swing.JInternalFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        lblId = new javax.swing.JLabel();
         lblName = new javax.swing.JLabel();
         lblAddress = new javax.swing.JLabel();
         lblTelephone = new javax.swing.JLabel();
         lblMail = new javax.swing.JLabel();
+        idUser = new javax.swing.JTextField();
         nameUser = new javax.swing.JTextField();
         addressUser = new javax.swing.JTextField();
         phoneUser = new javax.swing.JTextField();
@@ -46,26 +49,49 @@ public class SystemXClient extends javax.swing.JInternalFrame {
         setTitle("Clientes");
         setFrameIcon(new javax.swing.ImageIcon(getClass().getResource("/br/com/systemx/icons/clients.png"))); // NOI18N
         setPreferredSize(new java.awt.Dimension(682, 582));
+        addInternalFrameListener(new javax.swing.event.InternalFrameListener() {
+            public void internalFrameActivated(javax.swing.event.InternalFrameEvent evt) {
+                formInternalFrameActivated(evt);
+            }
+            public void internalFrameClosed(javax.swing.event.InternalFrameEvent evt) {
+            }
+            public void internalFrameClosing(javax.swing.event.InternalFrameEvent evt) {
+            }
+            public void internalFrameDeactivated(javax.swing.event.InternalFrameEvent evt) {
+            }
+            public void internalFrameDeiconified(javax.swing.event.InternalFrameEvent evt) {
+            }
+            public void internalFrameIconified(javax.swing.event.InternalFrameEvent evt) {
+            }
+            public void internalFrameOpened(javax.swing.event.InternalFrameEvent evt) {
+            }
+        });
 
-        lblName.setFont(new java.awt.Font("Tw Cen MT Condensed", 0, 22)); // NOI18N
+        lblId.setFont(new java.awt.Font("Tw Cen MT Condensed", 0, 20)); // NOI18N
+        lblId.setText("ID Cliente");
+
+        lblName.setFont(new java.awt.Font("Tw Cen MT Condensed", 0, 20)); // NOI18N
         lblName.setText("Nome*");
 
-        lblAddress.setFont(new java.awt.Font("Tw Cen MT Condensed", 0, 22)); // NOI18N
+        lblAddress.setFont(new java.awt.Font("Tw Cen MT Condensed", 0, 20)); // NOI18N
         lblAddress.setText("Endereço");
 
-        lblTelephone.setFont(new java.awt.Font("Tw Cen MT Condensed", 0, 22)); // NOI18N
+        lblTelephone.setFont(new java.awt.Font("Tw Cen MT Condensed", 0, 20)); // NOI18N
         lblTelephone.setText("Telefone*");
 
-        lblMail.setFont(new java.awt.Font("Tw Cen MT Condensed", 0, 22)); // NOI18N
+        lblMail.setFont(new java.awt.Font("Tw Cen MT Condensed", 0, 20)); // NOI18N
         lblMail.setText("Email");
 
-        nameUser.setFont(new java.awt.Font("Tw Cen MT Condensed", 0, 22)); // NOI18N
+        idUser.setEditable(false);
+        idUser.setFont(new java.awt.Font("Tw Cen MT Condensed", 0, 20)); // NOI18N
 
-        addressUser.setFont(new java.awt.Font("Tw Cen MT Condensed", 0, 22)); // NOI18N
+        nameUser.setFont(new java.awt.Font("Tw Cen MT Condensed", 0, 20)); // NOI18N
 
-        phoneUser.setFont(new java.awt.Font("Tw Cen MT Condensed", 0, 22)); // NOI18N
+        addressUser.setFont(new java.awt.Font("Tw Cen MT Condensed", 0, 20)); // NOI18N
 
-        emailUser.setFont(new java.awt.Font("Tw Cen MT Condensed", 0, 22)); // NOI18N
+        phoneUser.setFont(new java.awt.Font("Tw Cen MT Condensed", 0, 20)); // NOI18N
+
+        emailUser.setFont(new java.awt.Font("Tw Cen MT Condensed", 0, 20)); // NOI18N
 
         btnCreate.setFont(new java.awt.Font("Tw Cen MT Condensed", 0, 18)); // NOI18N
         btnCreate.setIcon(new javax.swing.ImageIcon(getClass().getResource("/br/com/systemx/icons/create.png"))); // NOI18N
@@ -105,17 +131,25 @@ public class SystemXClient extends javax.swing.JInternalFrame {
         btnSearch.setIcon(new javax.swing.ImageIcon(getClass().getResource("/br/com/systemx/icons/search.png"))); // NOI18N
         btnSearch.setToolTipText("");
 
+        tableUsers = new javax.swing.JTable(){
+            public boolean isCellEditable(int rowIndex, int colIndex){
+                return false;
+            }
+        };
         tableUsers.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null}
             },
             new String [] {
-                "Nome", "Endereço", "Telefone", "Email"
+                "Id", "Nome", "Endereço", "Fone", "Email"
             }
         ));
+        tableUsers.setToolTipText("Tabela de Clientes");
+        tableUsers.setFocusable(false);
+        tableUsers.getTableHeader().setReorderingAllowed(false);
         tableUsers.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 tableUsersMouseClicked(evt);
@@ -130,34 +164,36 @@ public class SystemXClient extends javax.swing.JInternalFrame {
             .addGroup(layout.createSequentialGroup()
                 .addGap(32, 32, 32)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(3, 3, 3)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(lblName, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(lblTelephone, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 83, Short.MAX_VALUE)
-                            .addComponent(lblMail, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(lblAddress, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                            .addComponent(addressUser, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 474, Short.MAX_VALUE)
-                            .addComponent(nameUser, javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                .addComponent(phoneUser, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 300, Short.MAX_VALUE)
-                                .addComponent(emailUser, javax.swing.GroupLayout.Alignment.LEADING))))
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 71, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(btnCreate)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addComponent(btnUpdate, javax.swing.GroupLayout.PREFERRED_SIZE, 163, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addComponent(btnDelete)
+                            .addGap(56, 56, 56))
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 600, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGroup(layout.createSequentialGroup()
-                            .addComponent(searchUser, javax.swing.GroupLayout.PREFERRED_SIZE, 550, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGap(18, 18, 18)
-                            .addComponent(btnSearch))
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 600, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(btnCreate)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btnUpdate, javax.swing.GroupLayout.PREFERRED_SIZE, 163, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btnDelete)
-                        .addGap(55, 55, 55)))
-                .addContainerGap())
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(lblName, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(lblTelephone, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(lblMail, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(lblAddress, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 83, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addComponent(lblId))
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                .addComponent(addressUser, javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(nameUser, javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(phoneUser, javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(emailUser, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 474, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(idUser, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(searchUser, javax.swing.GroupLayout.PREFERRED_SIZE, 550, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(btnSearch)))
+                .addContainerGap(38, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -166,9 +202,13 @@ public class SystemXClient extends javax.swing.JInternalFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(searchUser, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnSearch))
-                .addGap(19, 19, 19)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(27, 27, 27)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblId)
+                    .addComponent(idUser, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lblName)
                     .addComponent(nameUser, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -176,7 +216,7 @@ public class SystemXClient extends javax.swing.JInternalFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lblAddress)
                     .addComponent(addressUser, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(30, 30, 30)
+                .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lblTelephone)
                     .addComponent(phoneUser, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -184,12 +224,12 @@ public class SystemXClient extends javax.swing.JInternalFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lblMail)
                     .addComponent(emailUser, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 36, Short.MAX_VALUE)
+                .addGap(29, 29, 29)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnCreate)
                     .addComponent(btnUpdate)
                     .addComponent(btnDelete))
-                .addGap(36, 36, 36))
+                .addContainerGap(28, Short.MAX_VALUE))
         );
 
         setBounds(0, 0, 682, 582);
@@ -214,30 +254,43 @@ public class SystemXClient extends javax.swing.JInternalFrame {
     private void tableUsersMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tableUsersMouseClicked
         setFieldsClient();
     }//GEN-LAST:event_tableUsersMouseClicked
+
+    private void formInternalFrameActivated(javax.swing.event.InternalFrameEvent evt) {//GEN-FIRST:event_formInternalFrameActivated
+        clearFields();
+    }//GEN-LAST:event_formInternalFrameActivated
     
     private void clearFields(){
+        searchUser.setText(null);
+        ((DefaultTableModel) tableUsers.getModel()).setRowCount(0);
+        
+        idUser.setText(null);
         nameUser.setText(null);
         addressUser.setText(null);
         phoneUser.setText(null);
         emailUser.setText(null);
+        btnCreate.setEnabled(true);
     }
         
     private void setFieldsClient(){
         int setFields = tableUsers.getSelectedRow();
         
+        String id = tableUsers.getModel().getValueAt(setFields, 0).toString();
         String name = tableUsers.getModel().getValueAt(setFields, 1).toString();
         String address = tableUsers.getModel().getValueAt(setFields, 2).toString();
         String phone = tableUsers.getModel().getValueAt(setFields, 3).toString();
         String email = tableUsers.getModel().getValueAt(setFields, 4).toString();
         
+        idUser.setText(id);
         nameUser.setText(name);
         addressUser.setText(address);
         phoneUser.setText(phone);
         emailUser.setText(email);
+        
+        btnCreate.setEnabled(false);
     }
     
     private void searchClient(){
-        String sql = "select * from dbsystemx.tbclientes where nomecli like ?";        
+        String sql = "select idcli as Id, nomecli as Nome, endcli as Endereco, fonecli as Fone, emailcli as Email from dbsystemx.tbclientes where nomecli like ?";        
         String client = searchUser.getText();
         
         try {
@@ -258,7 +311,7 @@ public class SystemXClient extends javax.swing.JInternalFrame {
     }
         
     private void create(){
-        String sql = "insert into tbclientes (nomecli, endcli, fonecli, emailcli) values (?, ?, ?, ?)";
+        String sql = "insert into dbsystemx.tbclientes (nomecli, endcli, fonecli, emailcli) values (?, ?, ?, ?)";
         String name = nameUser.getText();
         String address = addressUser.getText();
         String phone = phoneUser.getText();
@@ -302,7 +355,7 @@ public class SystemXClient extends javax.swing.JInternalFrame {
     
     private void update(){
         int setFields = tableUsers.getSelectedRow();
-        String sql = "update tbclientes set nomecli = ?, endcli = ?, fonecli = ?, emailcli = ? where idcli = ?";    
+        String sql = "update dbsystemx.tbclientes set nomecli = ?, endcli = ?, fonecli = ?, emailcli = ? where idcli = ?";    
         
         String idCli = tableUsers.getModel().getValueAt(setFields, 0).toString();
         String name = nameUser.getText();
@@ -335,7 +388,6 @@ public class SystemXClient extends javax.swing.JInternalFrame {
               ,"Dados Atualizados", JOptionPane.INFORMATION_MESSAGE
             );
             
-            searchClient();
             clearFields();
         }catch(Exception ex){
             JOptionPane.showMessageDialog(null,
@@ -353,7 +405,7 @@ public class SystemXClient extends javax.swing.JInternalFrame {
         int setFields = tableUsers.getSelectedRow();
         String idCli = tableUsers.getModel().getValueAt(setFields, 0).toString();
         
-        String sql = "delete from tbclientes where idcli = ?";
+        String sql = "delete from dbsystemx.tbclientes where idcli = ?";
         
         int response = JOptionPane.showConfirmDialog(null, 
                 "Tem certeza que deseja apagar\n "
@@ -376,7 +428,6 @@ public class SystemXClient extends javax.swing.JInternalFrame {
               ,"Usúario Apagado", JOptionPane.INFORMATION_MESSAGE
             );
             
-            searchClient();
             clearFields();
         }catch(Exception ex){
             JOptionPane.showMessageDialog(null,
@@ -397,8 +448,10 @@ public class SystemXClient extends javax.swing.JInternalFrame {
     private javax.swing.JLabel btnSearch;
     private javax.swing.JButton btnUpdate;
     private javax.swing.JTextField emailUser;
+    private javax.swing.JTextField idUser;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel lblAddress;
+    private javax.swing.JLabel lblId;
     private javax.swing.JLabel lblMail;
     private javax.swing.JLabel lblName;
     private javax.swing.JLabel lblTelephone;
