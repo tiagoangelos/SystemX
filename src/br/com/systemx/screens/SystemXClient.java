@@ -47,7 +47,7 @@ public class SystemXClient extends javax.swing.JInternalFrame {
         setIconifiable(true);
         setMaximizable(true);
         setTitle("Clientes");
-        setFrameIcon(new javax.swing.ImageIcon(getClass().getResource("/br/com/systemx/icons/clients.png"))); // NOI18N
+        setFrameIcon(new javax.swing.ImageIcon(getClass().getResource("/br/com/systemx/icons/client-logo.png"))); // NOI18N
         setPreferredSize(new java.awt.Dimension(682, 582));
         addInternalFrameListener(new javax.swing.event.InternalFrameListener() {
             public void internalFrameActivated(javax.swing.event.InternalFrameEvent evt) {

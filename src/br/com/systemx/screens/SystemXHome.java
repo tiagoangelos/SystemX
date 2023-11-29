@@ -7,8 +7,9 @@ import javax.swing.JOptionPane;
 
 public class SystemXHome extends javax.swing.JFrame {
     
-    SystemXUsers systemXUsers = new SystemXUsers();
-    SystemXClient systemXClient = new SystemXClient();
+    SystemXUsers users = new SystemXUsers();
+    SystemXClient client = new SystemXClient();
+    SystemXOs os = new SystemXOs();
     
     public SystemXHome() {
         initComponents();
@@ -149,6 +150,11 @@ public class SystemXHome extends javax.swing.JFrame {
 
         menuOs.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_O, java.awt.event.InputEvent.ALT_DOWN_MASK));
         menuOs.setText("OS");
+        menuOs.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                menuOsActionPerformed(evt);
+            }
+        });
         menuRegister.add(menuOs);
 
         menuUser.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_U, java.awt.event.InputEvent.ALT_DOWN_MASK));
@@ -247,14 +253,19 @@ public class SystemXHome extends javax.swing.JFrame {
     }//GEN-LAST:event_menuAboutActionPerformed
 
     private void menuUserActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuUserActionPerformed
-        systemXUsers.setVisible(true);
-        desktopPanel.add(systemXUsers);
+        users.setVisible(true);
+        desktopPanel.add(users);
     }//GEN-LAST:event_menuUserActionPerformed
 
     private void menuClientActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuClientActionPerformed
-        systemXClient.setVisible(true);
-        desktopPanel.add(systemXClient);
+        client.setVisible(true);
+        desktopPanel.add(client);
     }//GEN-LAST:event_menuClientActionPerformed
+
+    private void menuOsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuOsActionPerformed
+        os.setVisible(true);
+        desktopPanel.add(os);        
+    }//GEN-LAST:event_menuOsActionPerformed
 
     public static void main(String args[]) {
         java.awt.EventQueue.invokeLater(new Runnable() {

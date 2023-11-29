@@ -45,7 +45,7 @@ public class SystemXUsers extends javax.swing.JInternalFrame {
         setIconifiable(true);
         setMaximizable(true);
         setTitle("Usuários");
-        setFrameIcon(new javax.swing.ImageIcon(getClass().getResource("/br/com/systemx/icons/users-logo.png"))); // NOI18N
+        setFrameIcon(new javax.swing.ImageIcon(getClass().getResource("/br/com/systemx/icons/user-logo.png"))); // NOI18N
         setPreferredSize(new java.awt.Dimension(682, 582));
 
         lblId.setFont(new java.awt.Font("Tw Cen MT Condensed", 0, 22)); // NOI18N
