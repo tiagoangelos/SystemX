@@ -118,7 +118,7 @@
               </Group>
               <EmptySpace min="-2" pref="29" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
-                  <Group type="103" groupAlignment="3" attributes="0">
+                  <Group type="103" groupAlignment="0" attributes="0">
                       <Component id="btnCreate" alignment="1" min="-2" max="-2" attributes="0"/>
                       <Component id="btnUpdate" alignment="1" min="-2" max="-2" attributes="0"/>
                   </Group>
@@ -216,6 +216,9 @@
         </Property>
         <Property name="text" type="java.lang.String" value=" "/>
         <Property name="toolTipText" type="java.lang.String" value="Cadastrar"/>
+        <Property name="cursor" type="java.awt.Cursor" editor="org.netbeans.modules.form.editors2.CursorEditor">
+          <Color id="Hand Cursor"/>
+        </Property>
       </Properties>
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnCreateActionPerformed"/>
@@ -230,6 +233,9 @@
           <Image iconType="3" name="/br/com/systemx/icons/update.png"/>
         </Property>
         <Property name="toolTipText" type="java.lang.String" value="Atualizar"/>
+        <Property name="cursor" type="java.awt.Cursor" editor="org.netbeans.modules.form.editors2.CursorEditor">
+          <Color id="Hand Cursor"/>
+        </Property>
       </Properties>
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnUpdateActionPerformed"/>
@@ -244,6 +250,9 @@
           <Image iconType="3" name="/br/com/systemx/icons/delete.png"/>
         </Property>
         <Property name="toolTipText" type="java.lang.String" value="Apagar"/>
+        <Property name="cursor" type="java.awt.Cursor" editor="org.netbeans.modules.form.editors2.CursorEditor">
+          <Color id="Hand Cursor"/>
+        </Property>
       </Properties>
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnDeleteActionPerformed"/>

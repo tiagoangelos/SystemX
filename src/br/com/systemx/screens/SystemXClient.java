@@ -97,6 +97,7 @@ public class SystemXClient extends javax.swing.JInternalFrame {
         btnCreate.setIcon(new javax.swing.ImageIcon(getClass().getResource("/br/com/systemx/icons/create.png"))); // NOI18N
         btnCreate.setText(" ");
         btnCreate.setToolTipText("Cadastrar");
+        btnCreate.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btnCreate.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnCreateActionPerformed(evt);
@@ -106,6 +107,7 @@ public class SystemXClient extends javax.swing.JInternalFrame {
         btnUpdate.setFont(new java.awt.Font("Tw Cen MT Condensed", 0, 18)); // NOI18N
         btnUpdate.setIcon(new javax.swing.ImageIcon(getClass().getResource("/br/com/systemx/icons/update.png"))); // NOI18N
         btnUpdate.setToolTipText("Atualizar");
+        btnUpdate.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btnUpdate.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnUpdateActionPerformed(evt);
@@ -115,6 +117,7 @@ public class SystemXClient extends javax.swing.JInternalFrame {
         btnDelete.setFont(new java.awt.Font("Tw Cen MT Condensed", 0, 18)); // NOI18N
         btnDelete.setIcon(new javax.swing.ImageIcon(getClass().getResource("/br/com/systemx/icons/delete.png"))); // NOI18N
         btnDelete.setToolTipText("Apagar");
+        btnDelete.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btnDelete.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnDeleteActionPerformed(evt);
@@ -226,9 +229,9 @@ public class SystemXClient extends javax.swing.JInternalFrame {
                     .addComponent(emailUser, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(29, 29, 29)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(btnCreate)
-                        .addComponent(btnUpdate))
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(btnCreate, javax.swing.GroupLayout.Alignment.TRAILING)
+                        .addComponent(btnUpdate, javax.swing.GroupLayout.Alignment.TRAILING))
                     .addComponent(btnDelete))
                 .addContainerGap(28, Short.MAX_VALUE))
         );
