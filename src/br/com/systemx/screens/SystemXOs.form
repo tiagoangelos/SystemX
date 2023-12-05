@@ -304,13 +304,13 @@
                   <Group type="103" groupAlignment="0" attributes="0">
                       <Component id="tableClients" pref="0" max="32767" attributes="0"/>
                       <Group type="102" attributes="0">
-                          <Component id="client" min="-2" pref="220" max="-2" attributes="0"/>
+                          <Component id="clientName" min="-2" pref="220" max="-2" attributes="0"/>
                           <EmptySpace max="-2" attributes="0"/>
                           <Component id="clienteId" min="-2" pref="36" max="-2" attributes="0"/>
                           <EmptySpace max="-2" attributes="0"/>
                           <Component id="lblId" min="-2" max="-2" attributes="0"/>
                           <EmptySpace pref="18" max="32767" attributes="0"/>
-                          <Component id="id" min="-2" pref="50" max="-2" attributes="0"/>
+                          <Component id="clientId" min="-2" pref="50" max="-2" attributes="0"/>
                       </Group>
                   </Group>
                   <EmptySpace max="-2" attributes="0"/>
@@ -323,10 +323,10 @@
                   <EmptySpace max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" attributes="0">
                       <Component id="clienteId" max="32767" attributes="0"/>
-                      <Component id="client" alignment="0" max="32767" attributes="0"/>
+                      <Component id="clientName" alignment="0" max="32767" attributes="0"/>
                       <Group type="103" alignment="0" groupAlignment="3" attributes="0">
                           <Component id="lblId" alignment="3" max="32767" attributes="0"/>
-                          <Component id="id" alignment="3" max="32767" attributes="0"/>
+                          <Component id="clientId" alignment="3" max="32767" attributes="0"/>
                       </Group>
                   </Group>
                   <EmptySpace type="unrelated" max="-2" attributes="0"/>
@@ -337,12 +337,15 @@
         </DimensionLayout>
       </Layout>
       <SubComponents>
-        <Component class="javax.swing.JTextField" name="client">
+        <Component class="javax.swing.JTextField" name="clientName">
           <Properties>
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
               <Font name="Tw Cen MT Condensed" size="18" style="0"/>
             </Property>
           </Properties>
+          <Events>
+            <EventHandler event="keyReleased" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="clientNameKeyReleased"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JLabel" name="clienteId">
           <Properties>
@@ -359,11 +362,13 @@
             <Property name="text" type="java.lang.String" value="*Id"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JTextField" name="id">
+        <Component class="javax.swing.JTextField" name="clientId">
           <Properties>
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-              <Font name="Tw Cen MT Condensed" size="18" style="0"/>
+              <Font name="Tw Cen MT Condensed" size="18" style="1"/>
             </Property>
+            <Property name="toolTipText" type="java.lang.String" value=""/>
+            <Property name="enabled" type="boolean" value="false"/>
           </Properties>
         </Component>
         <Container class="javax.swing.JScrollPane" name="tableClients">
@@ -373,7 +378,7 @@
 
           <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
           <SubComponents>
-            <Component class="javax.swing.JTable" name="jTable1">
+            <Component class="javax.swing.JTable" name="clienteTable">
               <Properties>
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                   <Font name="Tw Cen MT Condensed" size="18" style="0"/>
@@ -386,6 +391,9 @@
                   </Table>
                 </Property>
               </Properties>
+              <Events>
+                <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="clienteTableMouseClicked"/>
+              </Events>
             </Component>
           </SubComponents>
         </Container>

@@ -1,11 +1,25 @@
 package br.com.systemx.screens;
 
-public class SystemXOs extends javax.swing.JInternalFrame {
+import java.sql.*;
+import br.com.systemx.dal.ModuleConnection;
+import javax.swing.JOptionPane;
+import net.proteanit.sql.DbUtils;
 
+public class SystemXOs extends javax.swing.JInternalFrame {
+    
+    Connection connect = null;
+    PreparedStatement pst = null;
+    ResultSet resultSet = null;
+    
     public SystemXOs() {
         initComponents();
+        connectDataBase();   
     }
-
+    
+    private void connectDataBase(){
+        connect = ModuleConnection.conector();
+    }
+    
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -21,12 +35,12 @@ public class SystemXOs extends javax.swing.JInternalFrame {
         lblSituation = new javax.swing.JLabel();
         comboSituation = new javax.swing.JComboBox<>();
         clientPanel = new javax.swing.JPanel();
-        client = new javax.swing.JTextField();
+        clientName = new javax.swing.JTextField();
         clienteId = new javax.swing.JLabel();
         lblId = new javax.swing.JLabel();
-        id = new javax.swing.JTextField();
+        clientId = new javax.swing.JTextField();
         tableClients = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        clienteTable = new javax.swing.JTable();
         lblEquipment = new javax.swing.JLabel();
         equipament = new javax.swing.JTextField();
         lblDefect = new javax.swing.JLabel();
@@ -113,17 +127,24 @@ public class SystemXOs extends javax.swing.JInternalFrame {
 
         clientPanel.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Cliente", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tw Cen MT Condensed", 0, 18))); // NOI18N
 
-        client.setFont(new java.awt.Font("Tw Cen MT Condensed", 0, 18)); // NOI18N
+        clientName.setFont(new java.awt.Font("Tw Cen MT Condensed", 0, 18)); // NOI18N
+        clientName.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                clientNameKeyReleased(evt);
+            }
+        });
 
         clienteId.setIcon(new javax.swing.ImageIcon(getClass().getResource("/br/com/systemx/icons/search-os.png"))); // NOI18N
 
         lblId.setFont(new java.awt.Font("Tw Cen MT Condensed", 0, 18)); // NOI18N
         lblId.setText("*Id");
 
-        id.setFont(new java.awt.Font("Tw Cen MT Condensed", 0, 18)); // NOI18N
+        clientId.setFont(new java.awt.Font("Tw Cen MT Condensed", 1, 18)); // NOI18N
+        clientId.setToolTipText("");
+        clientId.setEnabled(false);
 
-        jTable1.setFont(new java.awt.Font("Tw Cen MT Condensed", 0, 18)); // NOI18N
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        clienteTable.setFont(new java.awt.Font("Tw Cen MT Condensed", 0, 18)); // NOI18N
+        clienteTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null},
                 {null, null, null},
@@ -134,7 +155,12 @@ public class SystemXOs extends javax.swing.JInternalFrame {
                 "Id", "Nome", "Fone"
             }
         ));
-        tableClients.setViewportView(jTable1);
+        clienteTable.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                clienteTableMouseClicked(evt);
+            }
+        });
+        tableClients.setViewportView(clienteTable);
 
         javax.swing.GroupLayout clientPanelLayout = new javax.swing.GroupLayout(clientPanel);
         clientPanel.setLayout(clientPanelLayout);
@@ -145,13 +171,13 @@ public class SystemXOs extends javax.swing.JInternalFrame {
                 .addGroup(clientPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(tableClients, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
                     .addGroup(clientPanelLayout.createSequentialGroup()
-                        .addComponent(client, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(clientName, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(clienteId, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(lblId)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 18, Short.MAX_VALUE)
-                        .addComponent(id, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(clientId, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
         clientPanelLayout.setVerticalGroup(
@@ -160,10 +186,10 @@ public class SystemXOs extends javax.swing.JInternalFrame {
                 .addContainerGap()
                 .addGroup(clientPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(clienteId, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(client)
+                    .addComponent(clientName)
                     .addGroup(clientPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(lblId, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(id)))
+                        .addComponent(clientId)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(tableClients, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
@@ -306,6 +332,40 @@ public class SystemXOs extends javax.swing.JInternalFrame {
         setBounds(0, 0, 682, 582);
     }// </editor-fold>//GEN-END:initComponents
 
+    private void clientNameKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_clientNameKeyReleased
+        searchClient();
+    }//GEN-LAST:event_clientNameKeyReleased
+
+    private void clienteTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_clienteTableMouseClicked
+        setFieldsOs();
+    }//GEN-LAST:event_clienteTableMouseClicked
+    
+    private void searchClient(){
+        String sql = "select idcli as Id, nomecli as Nome, fonecli as Fone from dbsystemx.tbclientes where nomecli like ?";
+        String clientSearch = clientName.getText();
+        
+        try {
+            pst = connect.prepareStatement(sql);
+            pst.setString(1, clientSearch + "%");
+            resultSet = pst.executeQuery();
+            
+            clienteTable.setModel(DbUtils.resultSetToTableModel(resultSet));
+        } catch(Exception ex){
+            JOptionPane.showMessageDialog(null,
+                    "Erro Ao Pesquisar\n\n"
+                    + "Ocorreu um erro inesperado ao\n"
+                    + "tentar Pesquisar, Reinicie o sistema\n"
+                    + "e tente novamente!",
+                    "Erro Ao Pesquisar", JOptionPane.ERROR_MESSAGE
+            ); 
+        }
+    }
+    
+    private void setFieldsOs(){
+        int set = clienteTable.getSelectedRow();
+        clientId.setText(clienteTable.getModel().getValueAt(set, 0).toString());
+    }
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel OsPanel;
     private javax.swing.JButton btnCreate;
@@ -315,14 +375,14 @@ public class SystemXOs extends javax.swing.JInternalFrame {
     private javax.swing.JButton btnUpdate;
     private javax.swing.JRadioButton budget;
     private javax.swing.ButtonGroup buttonGroup1;
-    private javax.swing.JTextField client;
+    private javax.swing.JTextField clientId;
+    private javax.swing.JTextField clientName;
     private javax.swing.JPanel clientPanel;
     private javax.swing.JLabel clienteId;
+    private javax.swing.JTable clienteTable;
     private javax.swing.JComboBox<String> comboSituation;
     private javax.swing.JTextField defect;
     private javax.swing.JTextField equipament;
-    private javax.swing.JTextField id;
-    private javax.swing.JTable jTable1;
     private javax.swing.JLabel lblDate;
     private javax.swing.JLabel lblDefect;
     private javax.swing.JLabel lblEquipment;
