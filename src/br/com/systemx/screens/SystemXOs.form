@@ -24,6 +24,9 @@
     <SyntheticProperty name="generatePosition" type="boolean" value="true"/>
     <SyntheticProperty name="generateSize" type="boolean" value="true"/>
   </SyntheticProperties>
+  <Events>
+    <EventHandler event="internalFrameOpened" listener="javax.swing.event.InternalFrameListener" parameters="javax.swing.event.InternalFrameEvent" handler="formInternalFrameOpened"/>
+  </Events>
   <AuxValues>
     <AuxValue name="FormSettings_autoResourcing" type="java.lang.Integer" value="0"/>
     <AuxValue name="FormSettings_autoSetComponentName" type="java.lang.Boolean" value="false"/>
@@ -92,7 +95,7 @@
                       <Component id="btnPrinter" min="-2" pref="120" max="-2" attributes="0"/>
                   </Group>
               </Group>
-              <EmptySpace pref="18" max="32767" attributes="0"/>
+              <EmptySpace max="32767" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -220,6 +223,7 @@
         </Component>
         <Component class="javax.swing.JTextField" name="osNumber">
           <Properties>
+            <Property name="editable" type="boolean" value="false"/>
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
               <Font name="Tw Cen MT Condensed" size="18" style="0"/>
             </Property>
@@ -227,6 +231,7 @@
         </Component>
         <Component class="javax.swing.JTextField" name="osDate">
           <Properties>
+            <Property name="editable" type="boolean" value="false"/>
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
               <Font name="Tw Cen MT Condensed" size="18" style="0"/>
             </Property>
@@ -242,6 +247,9 @@
             </Property>
             <Property name="text" type="java.lang.String" value="Or&#xe7;amento"/>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="budgetActionPerformed"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JRadioButton" name="orderOfService">
           <Properties>
@@ -251,8 +259,11 @@
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
               <Font name="Tw Cen MT Condensed" size="18" style="0"/>
             </Property>
-            <Property name="text" type="java.lang.String" value="Ordem de Servi&#xe7;o"/>
+            <Property name="text" type="java.lang.String" value="OS"/>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="orderOfServiceActionPerformed"/>
+          </Events>
         </Component>
       </SubComponents>
     </Container>
@@ -271,13 +282,13 @@
         </Property>
         <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
           <StringArray count="7">
-            <StringItem index="0" value="Entrega Ok"/>
-            <StringItem index="1" value="Or&#xe7;amento REPROVADO"/>
-            <StringItem index="2" value="Aguardando Aprova&#xe7;&#xe3;o"/>
-            <StringItem index="3" value="Aguardando Pe&#xe7;as"/>
-            <StringItem index="4" value="Abandonado pelo cliente"/>
-            <StringItem index="5" value="Na bancada"/>
-            <StringItem index="6" value="Retornou"/>
+            <StringItem index="0" value="Aguardando Aprova&#xe7;&#xe3;o"/>
+            <StringItem index="1" value="Aguardando Pe&#xe7;as"/>
+            <StringItem index="2" value="Na bancada"/>
+            <StringItem index="3" value="Entrega Ok"/>
+            <StringItem index="4" value="Retornou"/>
+            <StringItem index="5" value="Or&#xe7;amento REPROVADO"/>
+            <StringItem index="6" value="Abandonado pelo cliente"/>
           </StringArray>
         </Property>
       </Properties>
@@ -364,11 +375,11 @@
         </Component>
         <Component class="javax.swing.JTextField" name="clientId">
           <Properties>
+            <Property name="editable" type="boolean" value="false"/>
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-              <Font name="Tw Cen MT Condensed" size="18" style="1"/>
+              <Font name="Tw Cen MT Condensed" size="18" style="0"/>
             </Property>
             <Property name="toolTipText" type="java.lang.String" value=""/>
-            <Property name="enabled" type="boolean" value="false"/>
           </Properties>
         </Component>
         <Container class="javax.swing.JScrollPane" name="tableClients">
@@ -472,6 +483,7 @@
         <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
           <Font name="Tw Cen MT Condensed" size="18" style="0"/>
         </Property>
+        <Property name="text" type="java.lang.String" value="0"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JButton" name="btnCreate">
@@ -484,6 +496,9 @@
           <Color id="Hand Cursor"/>
         </Property>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnCreateActionPerformed"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JButton" name="btnRead">
       <Properties>
@@ -495,6 +510,9 @@
           <Color id="Hand Cursor"/>
         </Property>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnReadActionPerformed"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JButton" name="btnUpdate">
       <Properties>
@@ -506,6 +524,9 @@
           <Color id="Hand Cursor"/>
         </Property>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnUpdateActionPerformed"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JButton" name="btnDelete">
       <Properties>
@@ -517,6 +538,9 @@
           <Color id="Hand Cursor"/>
         </Property>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnDeleteActionPerformed"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JButton" name="btnPrinter">
       <Properties>
@@ -528,6 +552,9 @@
           <Color id="Hand Cursor"/>
         </Property>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnPrinterActionPerformed"/>
+      </Events>
     </Component>
   </SubComponents>
 </Form>

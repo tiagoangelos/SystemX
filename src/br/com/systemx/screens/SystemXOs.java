@@ -11,6 +11,8 @@ public class SystemXOs extends javax.swing.JInternalFrame {
     PreparedStatement pst = null;
     ResultSet resultSet = null;
     
+    String type;
+    
     public SystemXOs() {
         initComponents();
         connectDataBase();   
@@ -63,6 +65,23 @@ public class SystemXOs extends javax.swing.JInternalFrame {
         setTitle("Os - Ordem de Serviço");
         setFrameIcon(new javax.swing.ImageIcon(getClass().getResource("/br/com/systemx/icons/os-logo.png"))); // NOI18N
         setPreferredSize(new java.awt.Dimension(682, 582));
+        addInternalFrameListener(new javax.swing.event.InternalFrameListener() {
+            public void internalFrameActivated(javax.swing.event.InternalFrameEvent evt) {
+            }
+            public void internalFrameClosed(javax.swing.event.InternalFrameEvent evt) {
+            }
+            public void internalFrameClosing(javax.swing.event.InternalFrameEvent evt) {
+            }
+            public void internalFrameDeactivated(javax.swing.event.InternalFrameEvent evt) {
+            }
+            public void internalFrameDeiconified(javax.swing.event.InternalFrameEvent evt) {
+            }
+            public void internalFrameIconified(javax.swing.event.InternalFrameEvent evt) {
+            }
+            public void internalFrameOpened(javax.swing.event.InternalFrameEvent evt) {
+                formInternalFrameOpened(evt);
+            }
+        });
 
         OsPanel.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
@@ -72,17 +91,29 @@ public class SystemXOs extends javax.swing.JInternalFrame {
         lblDate.setFont(new java.awt.Font("Tw Cen MT Condensed", 0, 18)); // NOI18N
         lblDate.setText("Data");
 
+        osNumber.setEditable(false);
         osNumber.setFont(new java.awt.Font("Tw Cen MT Condensed", 0, 18)); // NOI18N
 
+        osDate.setEditable(false);
         osDate.setFont(new java.awt.Font("Tw Cen MT Condensed", 0, 18)); // NOI18N
 
         buttonGroup1.add(budget);
         budget.setFont(new java.awt.Font("Tw Cen MT Condensed", 0, 18)); // NOI18N
         budget.setText("Orçamento");
+        budget.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                budgetActionPerformed(evt);
+            }
+        });
 
         buttonGroup1.add(orderOfService);
         orderOfService.setFont(new java.awt.Font("Tw Cen MT Condensed", 0, 18)); // NOI18N
-        orderOfService.setText("Ordem de Serviço");
+        orderOfService.setText("OS");
+        orderOfService.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                orderOfServiceActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout OsPanelLayout = new javax.swing.GroupLayout(OsPanel);
         OsPanel.setLayout(OsPanelLayout);
@@ -123,7 +154,7 @@ public class SystemXOs extends javax.swing.JInternalFrame {
         lblSituation.setText("Situação");
 
         comboSituation.setFont(new java.awt.Font("Tw Cen MT Condensed", 0, 18)); // NOI18N
-        comboSituation.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Entrega Ok", "Orçamento REPROVADO", "Aguardando Aprovação", "Aguardando Peças", "Abandonado pelo cliente", "Na bancada", "Retornou" }));
+        comboSituation.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Aguardando Aprovação", "Aguardando Peças", "Na bancada", "Entrega Ok", "Retornou", "Orçamento REPROVADO", "Abandonado pelo cliente" }));
 
         clientPanel.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Cliente", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tw Cen MT Condensed", 0, 18))); // NOI18N
 
@@ -139,9 +170,9 @@ public class SystemXOs extends javax.swing.JInternalFrame {
         lblId.setFont(new java.awt.Font("Tw Cen MT Condensed", 0, 18)); // NOI18N
         lblId.setText("*Id");
 
-        clientId.setFont(new java.awt.Font("Tw Cen MT Condensed", 1, 18)); // NOI18N
+        clientId.setEditable(false);
+        clientId.setFont(new java.awt.Font("Tw Cen MT Condensed", 0, 18)); // NOI18N
         clientId.setToolTipText("");
-        clientId.setEnabled(false);
 
         clienteTable.setFont(new java.awt.Font("Tw Cen MT Condensed", 0, 18)); // NOI18N
         clienteTable.setModel(new javax.swing.table.DefaultTableModel(
@@ -219,26 +250,52 @@ public class SystemXOs extends javax.swing.JInternalFrame {
         lblTotalValue.setText("Valor Total");
 
         totalValue.setFont(new java.awt.Font("Tw Cen MT Condensed", 0, 18)); // NOI18N
+        totalValue.setText("0");
 
         btnCreate.setIcon(new javax.swing.ImageIcon(getClass().getResource("/br/com/systemx/icons/create.png"))); // NOI18N
         btnCreate.setToolTipText("Cadastrar");
         btnCreate.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnCreate.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCreateActionPerformed(evt);
+            }
+        });
 
         btnRead.setIcon(new javax.swing.ImageIcon(getClass().getResource("/br/com/systemx/icons/read.png"))); // NOI18N
         btnRead.setToolTipText("Pesquisar");
         btnRead.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnRead.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnReadActionPerformed(evt);
+            }
+        });
 
         btnUpdate.setIcon(new javax.swing.ImageIcon(getClass().getResource("/br/com/systemx/icons/update.png"))); // NOI18N
         btnUpdate.setToolTipText("Atualizar");
         btnUpdate.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnUpdate.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnUpdateActionPerformed(evt);
+            }
+        });
 
         btnDelete.setIcon(new javax.swing.ImageIcon(getClass().getResource("/br/com/systemx/icons/delete.png"))); // NOI18N
         btnDelete.setToolTipText("Apagar");
         btnDelete.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnDelete.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnDeleteActionPerformed(evt);
+            }
+        });
 
         btnPrinter.setIcon(new javax.swing.ImageIcon(getClass().getResource("/br/com/systemx/icons/printer.png"))); // NOI18N
         btnPrinter.setToolTipText("Imprimir Os");
         btnPrinter.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnPrinter.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnPrinterActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -286,7 +343,7 @@ public class SystemXOs extends javax.swing.JInternalFrame {
                         .addComponent(btnDelete, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(btnPrinter, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(18, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -339,6 +396,39 @@ public class SystemXOs extends javax.swing.JInternalFrame {
     private void clienteTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_clienteTableMouseClicked
         setFieldsOs();
     }//GEN-LAST:event_clienteTableMouseClicked
+
+    private void budgetActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_budgetActionPerformed
+        type = "Orçamento";
+    }//GEN-LAST:event_budgetActionPerformed
+
+    private void orderOfServiceActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_orderOfServiceActionPerformed
+        type = "OS";
+    }//GEN-LAST:event_orderOfServiceActionPerformed
+
+    private void formInternalFrameOpened(javax.swing.event.InternalFrameEvent evt) {//GEN-FIRST:event_formInternalFrameOpened
+        budget.setSelected(true);
+        type = "Orçamento";
+    }//GEN-LAST:event_formInternalFrameOpened
+
+    private void btnCreateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCreateActionPerformed
+        create();
+    }//GEN-LAST:event_btnCreateActionPerformed
+
+    private void btnReadActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnReadActionPerformed
+        read();
+    }//GEN-LAST:event_btnReadActionPerformed
+
+    private void btnUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateActionPerformed
+        update();
+    }//GEN-LAST:event_btnUpdateActionPerformed
+
+    private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
+        delete();
+    }//GEN-LAST:event_btnDeleteActionPerformed
+
+    private void btnPrinterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPrinterActionPerformed
+        printer();
+    }//GEN-LAST:event_btnPrinterActionPerformed
     
     private void searchClient(){
         String sql = "select idcli as Id, nomecli as Nome, fonecli as Fone from dbsystemx.tbclientes where nomecli like ?";
@@ -364,6 +454,86 @@ public class SystemXOs extends javax.swing.JInternalFrame {
     private void setFieldsOs(){
         int set = clienteTable.getSelectedRow();
         clientId.setText(clienteTable.getModel().getValueAt(set, 0).toString());
+    }
+    
+    private void clearFields(){
+        clientId.setText(null);
+        equipament.setText(null);
+        defect.setText(null);
+        service.setText(null);
+        technican.setText(null);
+        totalValue.setText(null);
+    }
+       
+    private void create(){
+        String sql = "insert into dbsystemx.tbos (tipo, situacao, equipamento, defeito, servico, tecnico, valor, idcli) values (?, ?, ?, ?, ?, ?, ?, ?)";
+        
+        String typeService = type;
+        String situation = comboSituation.getSelectedItem().toString();
+        String equipamentClient = equipament.getText();
+        String defectEquipament = defect.getText();
+        String serviceToDo = service.getText();
+        String technicanProfessional = technican.getText();
+        String value = totalValue.getText();
+        String client = clientId.getText();
+        
+        try {
+            pst = connect.prepareStatement(sql);
+            pst.setString(1, typeService);
+            pst.setString(2, situation);
+            pst.setString(3, equipamentClient);
+            pst.setString(4, defectEquipament);
+            pst.setString(5, serviceToDo);
+            pst.setString(6, technicanProfessional);
+            pst.setString(7, value);
+            pst.setString(8, client);
+            
+            if((client.isEmpty() || equipamentClient.isEmpty() || defectEquipament.isEmpty())){
+                JOptionPane.showMessageDialog(null,
+                        "Campos Vazio\n\n"
+                        + "Preencha todos os campos obrigatórios (*)\n"
+                        ,"Campos Vazio", JOptionPane.ERROR_MESSAGE
+                );
+            
+                return;
+            }
+
+            pst.executeUpdate();
+            
+            JOptionPane.showMessageDialog(null,
+                    "OS Emitida com Sucesso!\n\n"
+                    + "Ordem de serviço Emitida com Sucesso!\n"
+                    ,
+                    "OS Emitida com Sucesso!", JOptionPane.INFORMATION_MESSAGE
+            );
+            
+            clearFields();      
+        } catch(Exception ex){
+            JOptionPane.showMessageDialog(null,
+                    "Erro Ao Emitir OS\n\n"
+                    + "Ocorreu um erro inesperado ao\n"
+                    + "tentar Emitir Os, Reinicie o sistema\n"
+                    + "e tente novamente!",
+                    "Erro Ao Emitir OS", JOptionPane.ERROR_MESSAGE
+            );
+            System.out.println(ex); // retirar apos testes
+        }
+    }
+    
+    private void read(){
+        
+    }
+    
+    private void update(){
+        
+    }
+    
+    private void delete(){
+        
+    }
+    
+    private void printer(){
+        
     }
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
