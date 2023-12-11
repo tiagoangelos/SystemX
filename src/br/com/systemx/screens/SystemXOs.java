@@ -516,12 +516,56 @@ public class SystemXOs extends javax.swing.JInternalFrame {
                     + "e tente novamente!",
                     "Erro Ao Emitir OS", JOptionPane.ERROR_MESSAGE
             );
-            System.out.println(ex); // retirar apos testes
         }
     }
     
     private void read(){
+        String num_os = JOptionPane.showInputDialog("Numero da OS: "); 
+        String sql = "select * from dbsystemx.tbos where os = " + num_os;
         
+        try{
+            pst = connect.prepareStatement(sql);
+            resultSet = pst.executeQuery();
+            
+            if(resultSet.next()){
+                osNumber.setText(resultSet.getString(1));
+                osDate.setText(resultSet.getString(2));
+                
+                if(resultSet.getString(3).equals("Orçamento")){
+                    budget.setSelected(true);
+                    type = "Orçamento";
+                }else{
+                    orderOfService.setSelected(true);
+                    type = "Os";
+                }
+                
+                comboSituation.setSelectedItem(resultSet.getString(4));
+                equipament.setText(resultSet.getString(5));
+                defect.setText(resultSet.getString(6));
+                service.setText(resultSet.getString(7));
+                technican.setText(resultSet.getString(8));
+                totalValue.setText(resultSet.getString(9));
+                clientId.setText(resultSet.getString(10));
+                
+                btnCreate.setEnabled(false);
+                clientName.setEnabled(false);
+                clienteTable.setVisible(false);
+            }else{
+                JOptionPane.showMessageDialog(null,
+                    "OS Não Encontrada!\n\n"
+                    + "A OS pesquisada não foi Encontrada!\n"
+                    ,"OS Não Encontrada!", JOptionPane.ERROR_MESSAGE
+                );
+            }
+        } catch(Exception ex){
+            JOptionPane.showMessageDialog(null,
+                    "'Os' Inválida\n\n"
+                    + "Certifique que a 'Os - ordem de serviço'\n"
+                    +  "Exista."
+                    ,
+                    "'Os' Inválida", JOptionPane.INFORMATION_MESSAGE
+            );
+        }
     }
     
     private void update(){
