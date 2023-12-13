@@ -518,6 +518,7 @@ public class SystemXOs extends javax.swing.JInternalFrame {
                     + "e tente novamente!",
                     "Erro Ao Emitir OS", JOptionPane.ERROR_MESSAGE
             );
+            connectDataBase();
         }
     }
     
@@ -567,6 +568,7 @@ public class SystemXOs extends javax.swing.JInternalFrame {
                     ,
                     "'Os' Inválida", JOptionPane.INFORMATION_MESSAGE
             );
+            connectDataBase();
         }
     }
     
@@ -625,11 +627,46 @@ public class SystemXOs extends javax.swing.JInternalFrame {
                     + "e tente novamente!",
                     "Erro Ao Atualizar OS", JOptionPane.ERROR_MESSAGE
             );
+            connectDataBase();
         }
     }
     
     private void delete(){
+        int response = JOptionPane.showConfirmDialog(null, 
+                "Tem certeza que deseja apagar\n "
+              + "esta OS?"
+              , "Tem Certeza", JOptionPane.YES_NO_OPTION
+        );
         
+        if(response != JOptionPane.YES_OPTION){
+            return;
+        }
+        
+        String sql = "delete from dbsystemx.tbos where os = ?";
+        String os = osNumber.getText();
+          
+        try {        
+            pst = connect.prepareStatement(sql);
+            pst.setString(1, os);            
+            pst.execute();
+            
+            JOptionPane.showMessageDialog(null,
+                "Os Apagada Com Sucesso! \n\n"
+              + "Os foi apagada com sucesso! \n"
+              ,"Os Apagada Com Sucesso!", JOptionPane.INFORMATION_MESSAGE
+            );
+            
+            clearFields();
+        }catch(Exception ex){
+            JOptionPane.showMessageDialog(null,
+                    "Erro ao Apagar Os\n\n"
+                    + "Ocorreu um erro inesperado ao\n"
+                    + "tentar Apagar Os, Reinicie o sistema\n"
+                    + "e tente novamente!",
+                    "Erro ao Apagar", JOptionPane.ERROR_MESSAGE
+            );     
+            connectDataBase();
+        }
     }
     
     private void printer(){

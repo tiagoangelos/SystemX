@@ -406,11 +406,6 @@ public class SystemXClient extends javax.swing.JInternalFrame {
     }
     
     private void delete(){
-        int setFields = tableUsers.getSelectedRow();
-        String idCli = tableUsers.getModel().getValueAt(setFields, 0).toString();
-        
-        String sql = "delete from dbsystemx.tbclientes where idcli = ?";
-        
         int response = JOptionPane.showConfirmDialog(null, 
                 "Tem certeza que deseja apagar\n "
               + "este cliente?"
@@ -420,6 +415,11 @@ public class SystemXClient extends javax.swing.JInternalFrame {
         if(response != JOptionPane.YES_OPTION){
             return;
         }
+        
+        int setFields = tableUsers.getSelectedRow();
+        String idCli = tableUsers.getModel().getValueAt(setFields, 0).toString();
+        
+        String sql = "delete from dbsystemx.tbclientes where idcli = ?";
         
         try {        
             pst = connect.prepareStatement(sql);
