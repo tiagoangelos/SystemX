@@ -457,6 +457,8 @@ public class SystemXOs extends javax.swing.JInternalFrame {
     }
     
     private void clearFields(){
+        osNumber.setText(null);
+        osDate.setText(null);       
         clientId.setText(null);
         equipament.setText(null);
         defect.setText(null);
@@ -569,7 +571,61 @@ public class SystemXOs extends javax.swing.JInternalFrame {
     }
     
     private void update(){
+        String sql = "update dbsystemx.tbos set tipo = ?, situacao = ?, equipamento = ?, defeito = ?, servico = ?, tecnico = ?, valor = ? where os = ?";
         
+        String typeService = type;
+        String situation = comboSituation.getSelectedItem().toString();
+        String equipamentClient = equipament.getText();
+        String defectEquipament = defect.getText();
+        String serviceToDo = service.getText();
+        String technicanProfessional = technican.getText();
+        String value = totalValue.getText().replace(",", ".");
+        String os = osNumber.getText();
+        
+         try {
+            pst = connect.prepareStatement(sql);
+            pst.setString(1, typeService);
+            pst.setString(2, situation);
+            pst.setString(3, equipamentClient);
+            pst.setString(4, defectEquipament);
+            pst.setString(5, serviceToDo);
+            pst.setString(6, technicanProfessional);
+            pst.setString(7, value);
+            pst.setString(8, os);
+            
+            if((equipamentClient.isEmpty() || defectEquipament.isEmpty())){
+                JOptionPane.showMessageDialog(null,
+                        "Campos Vazio\n\n"
+                        + "Preencha todos os campos obrigatórios (*)\n"
+                        ,"Campos Vazio", JOptionPane.ERROR_MESSAGE
+                );
+            
+                return;
+            }
+
+            pst.executeUpdate();
+            
+            JOptionPane.showMessageDialog(null,
+                    "OS Atualizada com Sucesso!\n\n"
+                    + "Ordem de serviço Atualizada com Sucesso!\n"
+                    ,
+                    "OS Atualizada com Sucesso!", JOptionPane.INFORMATION_MESSAGE
+            );
+            
+            btnCreate.setEnabled(true);
+            clientName.setEnabled(true);
+            clienteTable.setVisible(true);
+            
+            clearFields();      
+        } catch(Exception ex){
+            JOptionPane.showMessageDialog(null,
+                    "Erro Ao Atualizar OS\n\n"
+                    + "Ocorreu um erro inesperado ao\n"
+                    + "tentar Atualizar Os, Reinicie o sistema\n"
+                    + "e tente novamente!",
+                    "Erro Ao Atualizar OS", JOptionPane.ERROR_MESSAGE
+            );
+        }
     }
     
     private void delete(){
