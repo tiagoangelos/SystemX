@@ -196,11 +196,11 @@ public class SystemXUsers extends javax.swing.JInternalFrame {
                     .addComponent(jComboProfile, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(lblProfile, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 48, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnRead)
-                    .addComponent(btnCreate)
-                    .addComponent(btnUpdate)
-                    .addComponent(btnDelete))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(btnRead, javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(btnCreate, javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(btnUpdate, javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(btnDelete, javax.swing.GroupLayout.Alignment.TRAILING))
                 .addGap(41, 41, 41))
         );
 
@@ -338,6 +338,7 @@ public class SystemXUsers extends javax.swing.JInternalFrame {
     
     public void update(){
         String sql = "update tbusuarios set usuario = ?, fone = ?, login = ?, senha = ?, perfil = ? where iduser = ?";    
+        
         String id = idUser.getText();
         String user = nameUser.getText();
         String phone = phoneUser.getText();
@@ -383,6 +384,16 @@ public class SystemXUsers extends javax.swing.JInternalFrame {
     public void delete(){
         String sql = "delete from tbusuarios where iduser = ?";
         String id = idUser.getText();
+        
+        if(id.isEmpty()){
+            JOptionPane.showMessageDialog(null,
+                "Nenhum Usúario Selecionado \n\n"
+              + "Selecione um usúario para apagar! \n"
+              ,"Nenhum Usúario Selecionado ", JOptionPane.INFORMATION_MESSAGE
+            );
+            
+            return;
+        }
         
         int response = JOptionPane.showConfirmDialog(null, 
                 "Tem certeza que deseja apagar\n "

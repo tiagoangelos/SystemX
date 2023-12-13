@@ -3,6 +3,7 @@ package br.com.systemx.screens;
 import java.sql.*;
 import br.com.systemx.dal.ModuleConnection;
 import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
 import net.proteanit.sql.DbUtils;
 
 public class SystemXOs extends javax.swing.JInternalFrame {
@@ -406,6 +407,8 @@ public class SystemXOs extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_orderOfServiceActionPerformed
 
     private void formInternalFrameOpened(javax.swing.event.InternalFrameEvent evt) {//GEN-FIRST:event_formInternalFrameOpened
+        clearFieldsAndEnableButtons();
+        
         budget.setSelected(true);
         type = "Orçamento";
     }//GEN-LAST:event_formInternalFrameOpened
@@ -429,7 +432,7 @@ public class SystemXOs extends javax.swing.JInternalFrame {
     private void btnPrinterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPrinterActionPerformed
         printer();
     }//GEN-LAST:event_btnPrinterActionPerformed
-    
+        
     private void searchClient(){
         String sql = "select idcli as Id, nomecli as Nome, fonecli as Fone from dbsystemx.tbclientes where nomecli like ?";
         String clientSearch = clientName.getText();
@@ -456,15 +459,25 @@ public class SystemXOs extends javax.swing.JInternalFrame {
         clientId.setText(clienteTable.getModel().getValueAt(set, 0).toString());
     }
     
-    private void clearFields(){
+    private void clearFieldsAndEnableButtons(){
         osNumber.setText(null);
-        osDate.setText(null);       
+        osDate.setText(null);
+        budget.setSelected(true);
+        type = "Orçamento";
+   
+        clientName.setText(null);
         clientId.setText(null);
+        ((DefaultTableModel) clienteTable.getModel()).setRowCount(0);
+        
         equipament.setText(null);
         defect.setText(null);
         service.setText(null);
         technican.setText(null);
         totalValue.setText(null);
+        
+        clientName.setEnabled(true);                
+        clienteTable.setVisible(true);
+        btnCreate.setEnabled(true);
     }
        
     private void create(){
@@ -476,7 +489,7 @@ public class SystemXOs extends javax.swing.JInternalFrame {
         String defectEquipament = defect.getText();
         String serviceToDo = service.getText();
         String technicanProfessional = technican.getText();
-        String value = totalValue.getText();
+        String value = totalValue.getText().replace(",", ".");
         String client = clientId.getText();
         
         try {
@@ -509,7 +522,7 @@ public class SystemXOs extends javax.swing.JInternalFrame {
                     "OS Emitida com Sucesso!", JOptionPane.INFORMATION_MESSAGE
             );
             
-            clearFields();      
+            clearFieldsAndEnableButtons();      
         } catch(Exception ex){
             JOptionPane.showMessageDialog(null,
                     "Erro Ao Emitir OS\n\n"
@@ -524,7 +537,7 @@ public class SystemXOs extends javax.swing.JInternalFrame {
     
     private void read(){
         String num_os = JOptionPane.showInputDialog("Numero da OS: "); 
-        String sql = "select * from dbsystemx.tbos where os = " + num_os;
+        String sql = "select os, date_format(data_os, '%d/%m/%Y - %H:%i'), tipo, situacao, equipamento, defeito, servico, tecnico, valor, idcli from dbsystemx.tbos where os = " + num_os;
         
         try{
             pst = connect.prepareStatement(sql);
@@ -613,12 +626,8 @@ public class SystemXOs extends javax.swing.JInternalFrame {
                     ,
                     "OS Atualizada com Sucesso!", JOptionPane.INFORMATION_MESSAGE
             );
-            
-            btnCreate.setEnabled(true);
-            clientName.setEnabled(true);
-            clienteTable.setVisible(true);
-            
-            clearFields();      
+             
+            clearFieldsAndEnableButtons();      
         } catch(Exception ex){
             JOptionPane.showMessageDialog(null,
                     "Erro Ao Atualizar OS\n\n"
@@ -632,6 +641,19 @@ public class SystemXOs extends javax.swing.JInternalFrame {
     }
     
     private void delete(){
+        String sql = "delete from dbsystemx.tbos where os = ?";
+        String os = osNumber.getText();
+
+        if(os.isEmpty()){
+            JOptionPane.showMessageDialog(null,
+                "Nenhuma Os Selecionada! \n\n"
+              + "Selecione alguma OS - Ordem de Serviço\n"
+              ,"Nenhuma Os Selecionada! ", JOptionPane.INFORMATION_MESSAGE
+            );
+            
+            return;
+        }
+        
         int response = JOptionPane.showConfirmDialog(null, 
                 "Tem certeza que deseja apagar\n "
               + "esta OS?"
@@ -642,9 +664,6 @@ public class SystemXOs extends javax.swing.JInternalFrame {
             return;
         }
         
-        String sql = "delete from dbsystemx.tbos where os = ?";
-        String os = osNumber.getText();
-          
         try {        
             pst = connect.prepareStatement(sql);
             pst.setString(1, os);            
@@ -656,7 +675,7 @@ public class SystemXOs extends javax.swing.JInternalFrame {
               ,"Os Apagada Com Sucesso!", JOptionPane.INFORMATION_MESSAGE
             );
             
-            clearFields();
+            clearFieldsAndEnableButtons();
         }catch(Exception ex){
             JOptionPane.showMessageDialog(null,
                     "Erro ao Apagar Os\n\n"
