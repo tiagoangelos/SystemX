@@ -7,8 +7,8 @@ public class ModuleConnection {
         java.sql.Connection connect = null;
         String driver = "com.mysql.cj.jdbc.Driver";
         
-        String url = "jdbc:mysql://127.0.0.1:3306/dbsystemx";
-        String user = "root";
+        String url = "jdbc:mysql://127.0.0.1:3306/dbsystemx?characterEncoding=utf-8";
+        String user = "dba";
         String password = "007201899";
         
         try {
