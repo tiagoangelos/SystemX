@@ -1,5 +1,7 @@
 package br.com.systemx.screens;
 
+import br.com.systemx.dal.ModuleConnection;
+import java.sql.*;
 import java.text.DateFormat;
 import java.util.Date;
 import javax.swing.ImageIcon;
@@ -11,10 +13,17 @@ public class SystemXHome extends javax.swing.JFrame {
     SystemXClient client = new SystemXClient();
     SystemXOs os = new SystemXOs();
     
+    Connection connect = null;
+    
     public SystemXHome() {
         initComponents();
+        connectDataBase();
     }
-
+    
+    private void connectDataBase(){
+        connect = ModuleConnection.conector();
+    }
+    
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -34,6 +43,7 @@ public class SystemXHome extends javax.swing.JFrame {
         menuOs = new javax.swing.JMenuItem();
         menuUser = new javax.swing.JMenuItem();
         menuReport = new javax.swing.JMenu();
+        menuClients = new javax.swing.JMenuItem();
         menuServices = new javax.swing.JMenuItem();
         menuHelp = new javax.swing.JMenu();
         menuAbout = new javax.swing.JMenuItem();
@@ -172,6 +182,15 @@ public class SystemXHome extends javax.swing.JFrame {
         menuReport.setText("Relatório");
         menuReport.setEnabled(false);
 
+        menuClients.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_L, java.awt.event.InputEvent.ALT_DOWN_MASK));
+        menuClients.setText("Clientes");
+        menuClients.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                menuClientsActionPerformed(evt);
+            }
+        });
+        menuReport.add(menuClients);
+
         menuServices.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_S, java.awt.event.InputEvent.ALT_DOWN_MASK));
         menuServices.setText("Serviço");
         menuReport.add(menuServices);
@@ -267,6 +286,10 @@ public class SystemXHome extends javax.swing.JFrame {
         desktopPanel.add(os);        
     }//GEN-LAST:event_menuOsActionPerformed
 
+    private void menuClientsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuClientsActionPerformed
+        clientsReport();
+    }//GEN-LAST:event_menuClientsActionPerformed
+
     public static void main(String args[]) {
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
@@ -287,6 +310,7 @@ public class SystemXHome extends javax.swing.JFrame {
     private javax.swing.JMenuItem menuAbout;
     private javax.swing.JMenuBar menuBar;
     private javax.swing.JMenuItem menuClient;
+    private javax.swing.JMenuItem menuClients;
     private javax.swing.JMenuItem menuExit;
     private javax.swing.JMenu menuHelp;
     private javax.swing.JMenu menuOption;
@@ -297,4 +321,16 @@ public class SystemXHome extends javax.swing.JFrame {
     public javax.swing.JMenuItem menuUser;
     private javax.swing.JPanel userPanel;
     // End of variables declaration//GEN-END:variables
+    
+    private void clientsReport(){
+        int response = JOptionPane.showConfirmDialog(null, 
+            "Atenção \n\n"
+          + "Confirma a Impressão do relatório de Cliente?" 
+          ,"Atenção", JOptionPane.YES_NO_OPTION
+        );
+        
+        if(response == JOptionPane.YES_OPTION){
+            //Jasper Studio Report
+        }
+    }
 }

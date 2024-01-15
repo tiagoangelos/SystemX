@@ -9,13 +9,13 @@ public class ModuleConnection {
         
         String url = "jdbc:mysql://127.0.0.1:3306/dbsystemx?characterEncoding=utf-8";
         String user = "dba";
-        String password = "007201899";
+        String password = "99602015";
         
         try {
             Class.forName(driver);
             connect = DriverManager.getConnection(url, user, password);
             return connect;
-        } catch (Exception ex) {
+        } catch (ClassNotFoundException | SQLException ex) {
             return null;
         }
     }   
