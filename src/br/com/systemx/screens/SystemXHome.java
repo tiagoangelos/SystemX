@@ -6,6 +6,11 @@ import java.text.DateFormat;
 import java.util.Date;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
+import net.sf.jasperreports.engine.JasperCompileManager;
+import net.sf.jasperreports.engine.JasperFillManager;
+import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.JasperReport;
+import net.sf.jasperreports.view.JasperViewer;
 
 public class SystemXHome extends javax.swing.JFrame {
     
@@ -330,7 +335,13 @@ public class SystemXHome extends javax.swing.JFrame {
         );
         
         if(response == JOptionPane.YES_OPTION){
-            //Jasper Studio Report
+            try {
+                JasperReport compiledReport = JasperCompileManager.compileReport("src/br/com/systemx/rel/ClientsReport.jrxml");             
+                JasperPrint filledReport = JasperFillManager.fillReport(compiledReport, null, connect);
+                JasperViewer.viewReport(filledReport, false);
+            } catch(Exception ex){
+                ex.printStackTrace();
+            }
         }
     }
 }
