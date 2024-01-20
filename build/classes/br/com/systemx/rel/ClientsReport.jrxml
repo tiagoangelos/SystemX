@@ -89,7 +89,7 @@ FROM dbsystemx.tbclientes]]>
 					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="3003e81e-99da-45d9-8470-1be3b91efa92"/>
 				</reportElement>
 				<textElement verticalAlignment="Bottom">
-					<font fontName="Tw Cen MT Condensed" size="18"/>
+					<font fontName="Tw Cen MT Condensed" size="18" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Id]]></text>
 			</staticText>
@@ -98,7 +98,7 @@ FROM dbsystemx.tbclientes]]>
 					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="682ec0a9-a6df-42d7-ab21-f752494b3a08"/>
 				</reportElement>
 				<textElement verticalAlignment="Bottom">
-					<font fontName="Tw Cen MT Condensed" size="18"/>
+					<font fontName="Tw Cen MT Condensed" size="18" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Nome]]></text>
 			</staticText>
@@ -107,7 +107,7 @@ FROM dbsystemx.tbclientes]]>
 					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="96cc8096-428e-46c4-9baf-d1dab1a0fb7b"/>
 				</reportElement>
 				<textElement verticalAlignment="Bottom">
-					<font fontName="Tw Cen MT Condensed" size="18"/>
+					<font fontName="Tw Cen MT Condensed" size="18" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Telefone]]></text>
 			</staticText>
@@ -116,7 +116,7 @@ FROM dbsystemx.tbclientes]]>
 					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="a334f025-9216-4baf-9564-f7c2f632bc49"/>
 				</reportElement>
 				<textElement verticalAlignment="Bottom">
-					<font fontName="Tw Cen MT Condensed" size="18"/>
+					<font fontName="Tw Cen MT Condensed" size="18" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Email]]></text>
 			</staticText>

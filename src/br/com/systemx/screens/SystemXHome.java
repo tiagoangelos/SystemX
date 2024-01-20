@@ -198,6 +198,11 @@ public class SystemXHome extends javax.swing.JFrame {
 
         menuServices.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_S, java.awt.event.InputEvent.ALT_DOWN_MASK));
         menuServices.setText("Serviço");
+        menuServices.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                menuServicesActionPerformed(evt);
+            }
+        });
         menuReport.add(menuServices);
 
         menuBar.add(menuReport);
@@ -295,6 +300,10 @@ public class SystemXHome extends javax.swing.JFrame {
         clientsReport();
     }//GEN-LAST:event_menuClientsActionPerformed
 
+    private void menuServicesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuServicesActionPerformed
+        serviceReport();
+    }//GEN-LAST:event_menuServicesActionPerformed
+
     public static void main(String args[]) {
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
@@ -326,6 +335,24 @@ public class SystemXHome extends javax.swing.JFrame {
     public javax.swing.JMenuItem menuUser;
     private javax.swing.JPanel userPanel;
     // End of variables declaration//GEN-END:variables
+    
+    private void serviceReport(){
+        int response = JOptionPane.showConfirmDialog(null, 
+            "Atenção \n\n"
+          + "Confirma a Impressão do relatório de Serviço?" 
+          ,"Atenção", JOptionPane.YES_NO_OPTION
+        );
+        
+        if(response == JOptionPane.YES_OPTION){
+            try {
+               JasperReport compiledReport = JasperCompileManager.compileReport("src/br/com/systemx/rel/OsReport.jrxml");             
+               JasperPrint filledReport = JasperFillManager.fillReport(compiledReport, null, connect);
+               JasperViewer.viewReport(filledReport, false);
+            } catch(Exception ex){
+                ex.printStackTrace();
+            }
+        }
+    }
     
     private void clientsReport(){
         int response = JOptionPane.showConfirmDialog(null, 

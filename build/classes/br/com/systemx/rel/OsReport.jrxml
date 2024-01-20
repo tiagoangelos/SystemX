@@ -1,0 +1,291 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.20.6.final using JasperReports Library version 6.20.6-5c96b6aa8a39ac1dc6b6bea4b81168e16dd39231  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Os" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="b1918967-4ccc-4506-bbd1-2a2963adbd5d">
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="DataAdapter.jrdax"/>
+	<property name="com.jaspersoft.studio.data.sql.tables">
+		<![CDATA[ZGJzeXN0ZW14LnRib3MgQVMgLDE0MSwxNSxkNGIyYTNlMi04NzA3LTRjYjYtYjI3Ni0xZGZmMDE3
+OTczNTg7ZGJzeXN0ZW14LnRiY2xpZW50ZXMgQVMgLDE1LDgwLGM3YmM5ZGZmLTk5NzEtNGQ1Mi04
+ZTk3LWNjODljNzE2NGZjZDs=]]>
+	</property>
+	<property name="com.jaspersoft.studio.data.sql.SQLQueryDesigner.sash.w1" value="341"/>
+	<property name="com.jaspersoft.studio.data.sql.SQLQueryDesigner.sash.w2" value="648"/>
+	<queryString>
+		<![CDATA[SELECT OSER.os,
+	OSER.data_os,
+	OSER.tipo,
+	OSER.situacao,
+	OSER.equipamento,
+	OSER.valor,
+	CLI.nomecli,
+	CLI.fonecli
+FROM dbsystemx.tbos AS OSER
+	inner join dbsystemx.tbclientes AS CLI ON 
+	  ( 
+	 CLI.idcli = OSER.idcli)]]>
+	</queryString>
+	<field name="os" class="java.lang.Integer">
+		<property name="com.jaspersoft.studio.field.name" value="os"/>
+		<property name="com.jaspersoft.studio.field.label" value="os"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="tbos"/>
+	</field>
+	<field name="data_os" class="java.sql.Timestamp">
+		<property name="com.jaspersoft.studio.field.name" value="data_os"/>
+		<property name="com.jaspersoft.studio.field.label" value="data_os"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="tbos"/>
+	</field>
+	<field name="tipo" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="tipo"/>
+		<property name="com.jaspersoft.studio.field.label" value="tipo"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="tbos"/>
+	</field>
+	<field name="situacao" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="situacao"/>
+		<property name="com.jaspersoft.studio.field.label" value="situacao"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="tbos"/>
+	</field>
+	<field name="equipamento" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="equipamento"/>
+		<property name="com.jaspersoft.studio.field.label" value="equipamento"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="tbos"/>
+	</field>
+	<field name="valor" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.name" value="valor"/>
+		<property name="com.jaspersoft.studio.field.label" value="valor"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="tbos"/>
+	</field>
+	<field name="nomecli" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="nomecli"/>
+		<property name="com.jaspersoft.studio.field.label" value="nomecli"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="tbclientes"/>
+	</field>
+	<field name="fonecli" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="fonecli"/>
+		<property name="com.jaspersoft.studio.field.label" value="fonecli"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="tbclientes"/>
+	</field>
+	<variable name="os1" class="java.lang.Integer" calculation="Count">
+		<variableExpression><![CDATA[$F{os}]]></variableExpression>
+	</variable>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="100" splitType="Stretch">
+			<image>
+				<reportElement x="10" y="5" width="70" height="70" uuid="049403bb-02eb-46e3-a22f-834163e6a82e"/>
+				<imageExpression><![CDATA["./src/br/com/systemx/rel/image-logo/systemx-logo.png"]]></imageExpression>
+			</image>
+			<staticText>
+				<reportElement x="152" y="25" width="250" height="30" uuid="a41cac04-957a-490e-890a-be2354e94600"/>
+				<textElement>
+					<font fontName="Tw Cen MT Condensed" size="26"/>
+				</textElement>
+				<text><![CDATA[Sistema Para Gestão De Serviço]]></text>
+			</staticText>
+			<line>
+				<reportElement x="0" y="90" width="560" height="1" uuid="f49bdf39-5991-423a-b77c-4f3b19931e6e"/>
+			</line>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="70" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="10" width="230" height="30" uuid="bc6953a3-c2d7-45cf-b640-35447eea6b9a"/>
+				<textElement>
+					<font fontName="Tw Cen MT Condensed" size="22"/>
+				</textElement>
+				<text><![CDATA[Relatório de Ordem de Serviços]]></text>
+			</staticText>
+			<textField pattern="dd/MM/yyyy">
+				<reportElement x="360" y="10" width="198" height="30" uuid="6e60155b-c558-4f51-8058-fdd5bf1dbbed"/>
+				<textElement textAlignment="Right">
+					<font fontName="Tw Cen MT Condensed" size="22"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement x="0" y="50" width="560" height="1" uuid="be2db257-98b4-490c-9133-98d0f13ea6e9"/>
+			</line>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="30" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="0" width="30" height="30" uuid="427ecc4f-fb75-4aa6-95ec-1a1d2258f3a1">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="303385b9-b1a0-4733-9a6e-9e56533f5451"/>
+				</reportElement>
+				<textElement>
+					<font fontName="Tw Cen MT Condensed" size="18" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Os]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="30" y="0" width="90" height="30" uuid="4755a430-9779-45b2-8063-61d176ba4885">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="31331893-8db0-4aac-8061-92d0ccc781ed"/>
+				</reportElement>
+				<textElement>
+					<font fontName="Tw Cen MT Condensed" size="18" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Data]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="130" y="0" width="40" height="30" uuid="5de5273c-c102-4600-a84e-ed67f30fdf45">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="f0c79ad5-11ce-40be-b9b1-ae4c87441117"/>
+				</reportElement>
+				<textElement>
+					<font fontName="Tw Cen MT Condensed" size="18" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Tipo]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="171" y="0" width="69" height="30" uuid="5cd79209-fdce-41c7-939c-60195deaf812">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="a468b6d5-ad7a-47a8-9aa7-79914f5022d6"/>
+				</reportElement>
+				<textElement>
+					<font fontName="Tw Cen MT Condensed" size="18" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Situação]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="240" y="0" width="90" height="30" uuid="2f33ca94-9554-47e7-94c5-59cea3039a70">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="694acfb3-b06d-41ee-9837-ea09c00aa99f"/>
+				</reportElement>
+				<textElement>
+					<font fontName="Tw Cen MT Condensed" size="18" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Equipamento]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="330" y="0" width="60" height="30" uuid="8a1dbf1e-8917-46ad-a01f-9c436b6468f6">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="cc4518cf-dcf2-4f4b-a6f7-20b7cf9e48b2"/>
+				</reportElement>
+				<textElement>
+					<font fontName="Tw Cen MT Condensed" size="18" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Valor]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="390" y="0" width="78" height="30" uuid="592b9a4d-e148-4b35-89e8-9a7504ca220b">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="a553f260-57c8-431e-baf9-51c4f132e50f"/>
+				</reportElement>
+				<textElement>
+					<font fontName="Tw Cen MT Condensed" size="18" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Nome]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="468" y="0" width="90" height="30" uuid="a32dc8ae-f8b7-409b-a7e3-46a8caad71ea">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="f3ce61fe-b433-4ca3-b8c6-9c466ae72403"/>
+				</reportElement>
+				<textElement>
+					<font fontName="Tw Cen MT Condensed" size="18" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Fone]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="40" splitType="Stretch">
+			<textField>
+				<reportElement x="0" y="0" width="30" height="30" uuid="aedeb72f-4603-4a0e-813e-a522fedc434d">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="303385b9-b1a0-4733-9a6e-9e56533f5451"/>
+				</reportElement>
+				<textElement>
+					<font fontName="Tw Cen MT Condensed" size="18"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{os}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="30" y="0" width="90" height="30" uuid="dc74bc88-3ce9-4cb3-87a7-29da6e39cf28">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="31331893-8db0-4aac-8061-92d0ccc781ed"/>
+				</reportElement>
+				<textElement>
+					<font fontName="Tw Cen MT Condensed" size="18"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{data_os}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="130" y="0" width="40" height="30" uuid="159a1090-72c8-4cc5-a12e-998e7b62353d">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="f0c79ad5-11ce-40be-b9b1-ae4c87441117"/>
+				</reportElement>
+				<textElement>
+					<font fontName="Tw Cen MT Condensed" size="18"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{tipo}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="171" y="0" width="69" height="30" uuid="593dfd38-75ea-483d-8483-6eba9d47c256">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="a468b6d5-ad7a-47a8-9aa7-79914f5022d6"/>
+				</reportElement>
+				<textElement>
+					<font fontName="Tw Cen MT Condensed" size="18"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{situacao}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="240" y="0" width="90" height="30" uuid="b6ee443f-b996-4a2a-8a67-cfbfbf25584f">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="694acfb3-b06d-41ee-9837-ea09c00aa99f"/>
+				</reportElement>
+				<textElement>
+					<font fontName="Tw Cen MT Condensed" size="18"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{equipamento}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="330" y="0" width="60" height="30" uuid="02079b4a-ad88-44eb-a730-8109c5654378">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="cc4518cf-dcf2-4f4b-a6f7-20b7cf9e48b2"/>
+				</reportElement>
+				<textElement>
+					<font fontName="Tw Cen MT Condensed" size="18"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{valor}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="388" y="0" width="79" height="30" uuid="fb2f75a9-e12b-4746-a938-dbfb208bf800">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="a553f260-57c8-431e-baf9-51c4f132e50f"/>
+				</reportElement>
+				<textElement>
+					<font fontName="Tw Cen MT Condensed" size="18"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{nomecli}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="468" y="0" width="90" height="30" uuid="7cd3afac-4eda-45a5-be10-da53e8578ac4">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="f3ce61fe-b433-4ca3-b8c6-9c466ae72403"/>
+				</reportElement>
+				<textElement>
+					<font fontName="Tw Cen MT Condensed" size="18"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{fonecli}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<pageFooter>
+		<band height="50" splitType="Stretch">
+			<line>
+				<reportElement x="0" y="0" width="560" height="1" uuid="467b54ba-c0d2-4330-a410-e17f88b9747c"/>
+			</line>
+			<textField>
+				<reportElement x="0" y="10" width="558" height="30" uuid="5e007d4e-fa02-4826-aabf-a01f2519ac5e"/>
+				<textElement textAlignment="Center">
+					<font fontName="Tw Cen MT Condensed" size="18"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Página " + $V{PAGE_NUMBER} + " De " + $V{PAGE_COUNT}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageFooter>
+	<summary>
+		<band height="40" splitType="Stretch">
+			<line>
+				<reportElement x="0" y="0" width="560" height="1" uuid="a8f50ef0-b5ae-47a5-ba52-c6878b593d1a"/>
+			</line>
+			<textField>
+				<reportElement x="0" y="10" width="558" height="20" uuid="13208eb9-c8b1-4b04-8a6c-bbeaf5e89d33"/>
+				<textElement>
+					<font fontName="Tw Cen MT Condensed" size="18"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Total De Ordem De Serviços: " + $V{os1}]]></textFieldExpression>
+			</textField>
+		</band>
+	</summary>
+</jasperReport>
