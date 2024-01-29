@@ -2,9 +2,15 @@ package br.com.systemx.screens;
 
 import java.sql.*;
 import br.com.systemx.dal.ModuleConnection;
+import java.util.HashMap;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import net.proteanit.sql.DbUtils;
+import net.sf.jasperreports.engine.JasperCompileManager;
+import net.sf.jasperreports.engine.JasperFillManager;
+import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.JasperReport;
+import net.sf.jasperreports.view.JasperViewer;
 
 public class SystemXOs extends javax.swing.JInternalFrame {
     
@@ -689,7 +695,25 @@ public class SystemXOs extends javax.swing.JInternalFrame {
     }
     
     private void printer(){
+        int response = JOptionPane.showConfirmDialog(null, 
+            "Atenção \n\n"
+          + "Confirma a Impressão desta Os - Ordem de Serviço?" 
+          ,"Atenção", JOptionPane.YES_NO_OPTION
+        );
         
+        if(response == JOptionPane.YES_OPTION){
+            try {
+               HashMap parameter = new HashMap();    
+               parameter.put("os", Integer.parseInt(osNumber.getText()));
+               
+               JasperReport compiledReport = JasperCompileManager.compileReport("src/br/com/systemx/rel/OsPrinter.jrxml");             
+               JasperPrint filledReport = JasperFillManager.fillReport(compiledReport, parameter, connect);
+               
+               JasperViewer.viewReport(filledReport, false);
+            } catch(Exception ex){
+                ex.printStackTrace();
+            }
+        }
     }
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
