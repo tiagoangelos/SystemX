@@ -438,25 +438,54 @@ public class SystemXOs extends javax.swing.JInternalFrame {
     private void btnPrinterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPrinterActionPerformed
         printer();
     }//GEN-LAST:event_btnPrinterActionPerformed
+           
+    // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JPanel OsPanel;
+    private javax.swing.JButton btnCreate;
+    private javax.swing.JButton btnDelete;
+    private javax.swing.JButton btnPrinter;
+    private javax.swing.JButton btnRead;
+    private javax.swing.JButton btnUpdate;
+    private javax.swing.JRadioButton budget;
+    private javax.swing.ButtonGroup buttonGroup1;
+    private javax.swing.JTextField clientId;
+    private javax.swing.JTextField clientName;
+    private javax.swing.JPanel clientPanel;
+    private javax.swing.JLabel clienteId;
+    private javax.swing.JTable clienteTable;
+    private javax.swing.JComboBox<String> comboSituation;
+    private javax.swing.JTextField defect;
+    private javax.swing.JTextField equipament;
+    private javax.swing.JLabel lblDate;
+    private javax.swing.JLabel lblDefect;
+    private javax.swing.JLabel lblEquipment;
+    private javax.swing.JLabel lblId;
+    private javax.swing.JLabel lblOs;
+    private javax.swing.JLabel lblService;
+    private javax.swing.JLabel lblSituation;
+    private javax.swing.JLabel lblTechnician;
+    private javax.swing.JLabel lblTotalValue;
+    private javax.swing.JRadioButton orderOfService;
+    private javax.swing.JTextField osDate;
+    private javax.swing.JTextField osNumber;
+    private javax.swing.JTextField service;
+    private javax.swing.JScrollPane tableClients;
+    private javax.swing.JTextField technican;
+    private javax.swing.JTextField totalValue;
+    // End of variables declaration//GEN-END:variables
+    
+    private void lastOsGenerated(){
+        String sql = "select max(os) from dbsystemx.tbos";
         
-    private void searchClient(){
-        String sql = "select idcli as Id, nomecli as Nome, fonecli as Fone from dbsystemx.tbclientes where nomecli like ?";
-        String clientSearch = clientName.getText();
-        
-        try {
+        try{
             pst = connect.prepareStatement(sql);
-            pst.setString(1, clientSearch + "%");
             resultSet = pst.executeQuery();
             
-            clienteTable.setModel(DbUtils.resultSetToTableModel(resultSet));
-        } catch(Exception ex){
-            JOptionPane.showMessageDialog(null,
-                    "Erro Ao Pesquisar\n\n"
-                    + "Ocorreu um erro inesperado ao\n"
-                    + "tentar Pesquisar, Reinicie o sistema\n"
-                    + "e tente novamente!",
-                    "Erro Ao Pesquisar", JOptionPane.ERROR_MESSAGE
-            ); 
+            if(resultSet.next()){
+                osNumber.setText(resultSet.getString(1));
+            }
+        }catch(Exception ex){
+            ex.printStackTrace();
         }
     }
     
@@ -485,108 +514,94 @@ public class SystemXOs extends javax.swing.JInternalFrame {
         clienteTable.setVisible(true);
         btnCreate.setEnabled(true);
     }
-       
-    private void create(){
-        String sql = "insert into dbsystemx.tbos (tipo, situacao, equipamento, defeito, servico, tecnico, valor, idcli) values (?, ?, ?, ?, ?, ?, ?, ?)";
-        
-        String typeService = type;
-        String situation = comboSituation.getSelectedItem().toString();
-        String equipamentClient = equipament.getText();
-        String defectEquipament = defect.getText();
-        String serviceToDo = service.getText();
-        String technicanProfessional = technican.getText();
-        String value = totalValue.getText().replace(",", ".");
-        String client = clientId.getText();
+    
+    private void searchClient(){
+        String sql = "select idcli as Id, nomecli as Nome, fonecli as Fone from dbsystemx.tbclientes where nomecli like ?";
+        String clientSearch = clientName.getText();
         
         try {
             pst = connect.prepareStatement(sql);
-            pst.setString(1, typeService);
-            pst.setString(2, situation);
-            pst.setString(3, equipamentClient);
-            pst.setString(4, defectEquipament);
-            pst.setString(5, serviceToDo);
-            pst.setString(6, technicanProfessional);
-            pst.setString(7, value);
-            pst.setString(8, client);
+            pst.setString(1, clientSearch + "%");
+            resultSet = pst.executeQuery();
             
-            if((client.isEmpty() || equipamentClient.isEmpty() || defectEquipament.isEmpty())){
-                JOptionPane.showMessageDialog(null,
-                        "Campos Vazio\n\n"
-                        + "Preencha todos os campos obrigatórios (*)\n"
-                        ,"Campos Vazio", JOptionPane.ERROR_MESSAGE
-                );
-            
-                return;
-            }
-
-            pst.executeUpdate();
-            
-            JOptionPane.showMessageDialog(null,
-                    "OS Emitida com Sucesso!\n\n"
-                    + "Ordem de serviço Emitida com Sucesso!\n"
-                    ,
-                    "OS Emitida com Sucesso!", JOptionPane.INFORMATION_MESSAGE
-            );
-            
-            clearFieldsAndEnableButtons();      
+            clienteTable.setModel(DbUtils.resultSetToTableModel(resultSet));
         } catch(Exception ex){
             JOptionPane.showMessageDialog(null,
-                    "Erro Ao Emitir OS\n\n"
+                    "Erro Ao Pesquisar\n\n"
                     + "Ocorreu um erro inesperado ao\n"
-                    + "tentar Emitir Os, Reinicie o sistema\n"
+                    + "tentar Pesquisar, Reinicie o sistema\n"
                     + "e tente novamente!",
-                    "Erro Ao Emitir OS", JOptionPane.ERROR_MESSAGE
-            );
-            connectDataBase();
+                    "Erro Ao Pesquisar", JOptionPane.ERROR_MESSAGE
+            ); 
         }
     }
     
-    private void read(){
-        String num_os = JOptionPane.showInputDialog("Numero da OS: "); 
-        String sql = "select os, date_format(data_os, '%d/%m/%Y - %H:%i'), tipo, situacao, equipamento, defeito, servico, tecnico, valor, idcli from dbsystemx.tbos where os = " + num_os;
+    private void printer(){
+        int response = JOptionPane.showConfirmDialog(null, 
+            "Atenção \n\n"
+          + "Confirma a Impressão desta Os - Ordem de Serviço?" 
+          ,"Atenção", JOptionPane.YES_NO_OPTION
+        );
         
-        try{
-            pst = connect.prepareStatement(sql);
-            resultSet = pst.executeQuery();
-            
-            if(resultSet.next()){
-                osNumber.setText(resultSet.getString(1));
-                osDate.setText(resultSet.getString(2));
-                
-                if(resultSet.getString(3).equals("Orçamento")){
-                    budget.setSelected(true);
-                    type = "Orçamento";
-                }else{
-                    orderOfService.setSelected(true);
-                    type = "Os";
-                }
-                
-                comboSituation.setSelectedItem(resultSet.getString(4));
-                equipament.setText(resultSet.getString(5));
-                defect.setText(resultSet.getString(6));
-                service.setText(resultSet.getString(7));
-                technican.setText(resultSet.getString(8));
-                totalValue.setText(resultSet.getString(9));
-                clientId.setText(resultSet.getString(10));
-                
-                btnCreate.setEnabled(false);
-                clientName.setEnabled(false);
-                clienteTable.setVisible(false);
-            }else{
-                JOptionPane.showMessageDialog(null,
-                    "OS Não Encontrada!\n\n"
-                    + "A OS pesquisada não foi Encontrada!\n"
-                    ,"OS Não Encontrada!", JOptionPane.ERROR_MESSAGE
-                );
+        if(response == JOptionPane.YES_OPTION){
+            try {
+               HashMap parameter = new HashMap();    
+               parameter.put("os", Integer.parseInt(osNumber.getText()));
+               
+               JasperReport compiledReport = JasperCompileManager.compileReport("src/br/com/systemx/rel/OsPrinter.jrxml");             
+               JasperPrint filledReport = JasperFillManager.fillReport(compiledReport, parameter, connect);
+               
+               JasperViewer.viewReport(filledReport, false);
+            } catch(Exception ex){
+                ex.printStackTrace();
             }
-        } catch(Exception ex){
+        }
+    }
+    
+    private void delete(){
+        String sql = "delete from dbsystemx.tbos where os = ?";
+        String os = osNumber.getText();
+
+        if(os.isEmpty()){
             JOptionPane.showMessageDialog(null,
-                    "'Os' Inválida\n\n"
-                    + "Certifique que a 'Os - ordem de serviço'\n"
-                    +  "Exista."
-                    ,
-                    "'Os' Inválida", JOptionPane.INFORMATION_MESSAGE
+                "Nenhuma Os Selecionada! \n\n"
+              + "Selecione alguma OS - Ordem de Serviço\n"
+              ,"Nenhuma Os Selecionada! ", JOptionPane.INFORMATION_MESSAGE
             );
+            
+            return;
+        }
+        
+        int response = JOptionPane.showConfirmDialog(null, 
+                "Tem certeza que deseja apagar\n "
+              + "esta OS?"
+              , "Tem Certeza", JOptionPane.YES_NO_OPTION
+        );
+        
+        if(response != JOptionPane.YES_OPTION){
+            return;
+        }
+        
+        try {        
+            pst = connect.prepareStatement(sql);
+            pst.setString(1, os);            
+            pst.execute();
+            
+            JOptionPane.showMessageDialog(null,
+                "Os Apagada Com Sucesso! \n\n"
+              + "Os foi apagada com sucesso! \n"
+              ,"Os Apagada Com Sucesso!", JOptionPane.INFORMATION_MESSAGE
+            );
+            
+            clearFieldsAndEnableButtons();
+        }catch(Exception ex){
+            JOptionPane.showMessageDialog(null,
+                    "Erro ao Apagar Os\n\n"
+                    + "Ocorreu um erro inesperado ao\n"
+                    + "tentar Apagar Os, Reinicie o sistema\n"
+                    + "e tente novamente!",
+                    "Erro ao Apagar", JOptionPane.ERROR_MESSAGE
+            );     
             connectDataBase();
         }
     }
@@ -646,108 +661,109 @@ public class SystemXOs extends javax.swing.JInternalFrame {
         }
     }
     
-    private void delete(){
-        String sql = "delete from dbsystemx.tbos where os = ?";
-        String os = osNumber.getText();
-
-        if(os.isEmpty()){
-            JOptionPane.showMessageDialog(null,
-                "Nenhuma Os Selecionada! \n\n"
-              + "Selecione alguma OS - Ordem de Serviço\n"
-              ,"Nenhuma Os Selecionada! ", JOptionPane.INFORMATION_MESSAGE
-            );
-            
-            return;
-        }
+    private void read(){
+        String num_os = JOptionPane.showInputDialog("Numero da OS: "); 
+        String sql = "select os, date_format(data_os, '%d/%m/%Y - %H:%i'), tipo, situacao, equipamento, defeito, servico, tecnico, valor, idcli from dbsystemx.tbos where os = " + num_os;
         
-        int response = JOptionPane.showConfirmDialog(null, 
-                "Tem certeza que deseja apagar\n "
-              + "esta OS?"
-              , "Tem Certeza", JOptionPane.YES_NO_OPTION
-        );
-        
-        if(response != JOptionPane.YES_OPTION){
-            return;
-        }
-        
-        try {        
+        try{
             pst = connect.prepareStatement(sql);
-            pst.setString(1, os);            
-            pst.execute();
+            resultSet = pst.executeQuery();
             
+            if(resultSet.next()){
+                osNumber.setText(resultSet.getString(1));
+                osDate.setText(resultSet.getString(2));
+                
+                if(resultSet.getString(3).equals("Orçamento")){
+                    budget.setSelected(true);
+                    type = "Orçamento";
+                }else{
+                    orderOfService.setSelected(true);
+                    type = "Os";
+                }
+                
+                comboSituation.setSelectedItem(resultSet.getString(4));
+                equipament.setText(resultSet.getString(5));
+                defect.setText(resultSet.getString(6));
+                service.setText(resultSet.getString(7));
+                technican.setText(resultSet.getString(8));
+                totalValue.setText(resultSet.getString(9));
+                clientId.setText(resultSet.getString(10));
+                
+                btnCreate.setEnabled(false);
+                clientName.setEnabled(false);
+                clienteTable.setVisible(false);
+            }else{
+                JOptionPane.showMessageDialog(null,
+                    "OS Não Encontrada!\n\n"
+                    + "A OS pesquisada não foi Encontrada!\n"
+                    ,"OS Não Encontrada!", JOptionPane.ERROR_MESSAGE
+                );
+            }
+        } catch(Exception ex){
             JOptionPane.showMessageDialog(null,
-                "Os Apagada Com Sucesso! \n\n"
-              + "Os foi apagada com sucesso! \n"
-              ,"Os Apagada Com Sucesso!", JOptionPane.INFORMATION_MESSAGE
+                    "'Os' Inválida\n\n"
+                    + "Certifique que a 'Os - ordem de serviço'\n"
+                    +  "Exista."
+                    ,
+                    "'Os' Inválida", JOptionPane.INFORMATION_MESSAGE
             );
-            
-            clearFieldsAndEnableButtons();
-        }catch(Exception ex){
-            JOptionPane.showMessageDialog(null,
-                    "Erro ao Apagar Os\n\n"
-                    + "Ocorreu um erro inesperado ao\n"
-                    + "tentar Apagar Os, Reinicie o sistema\n"
-                    + "e tente novamente!",
-                    "Erro ao Apagar", JOptionPane.ERROR_MESSAGE
-            );     
             connectDataBase();
         }
     }
     
-    private void printer(){
-        int response = JOptionPane.showConfirmDialog(null, 
-            "Atenção \n\n"
-          + "Confirma a Impressão desta Os - Ordem de Serviço?" 
-          ,"Atenção", JOptionPane.YES_NO_OPTION
-        );
+    private void create(){
+        String sql = "insert into dbsystemx.tbos (tipo, situacao, equipamento, defeito, servico, tecnico, valor, idcli) values (?, ?, ?, ?, ?, ?, ?, ?)";
         
-        if(response == JOptionPane.YES_OPTION){
-            try {
-               HashMap parameter = new HashMap();    
-               parameter.put("os", Integer.parseInt(osNumber.getText()));
-               
-               JasperReport compiledReport = JasperCompileManager.compileReport("src/br/com/systemx/rel/OsPrinter.jrxml");             
-               JasperPrint filledReport = JasperFillManager.fillReport(compiledReport, parameter, connect);
-               
-               JasperViewer.viewReport(filledReport, false);
-            } catch(Exception ex){
-                ex.printStackTrace();
+        String typeService = type;
+        String situation = comboSituation.getSelectedItem().toString();
+        String equipamentClient = equipament.getText();
+        String defectEquipament = defect.getText();
+        String serviceToDo = service.getText();
+        String technicanProfessional = technican.getText();
+        String value = totalValue.getText().replace(",", ".");
+        String client = clientId.getText();
+        
+        try {
+            pst = connect.prepareStatement(sql);
+            pst.setString(1, typeService);
+            pst.setString(2, situation);
+            pst.setString(3, equipamentClient);
+            pst.setString(4, defectEquipament);
+            pst.setString(5, serviceToDo);
+            pst.setString(6, technicanProfessional);
+            pst.setString(7, value);
+            pst.setString(8, client);
+            
+            if((client.isEmpty() || equipamentClient.isEmpty() || defectEquipament.isEmpty())){
+                JOptionPane.showMessageDialog(null,
+                        "Campos Vazio\n\n"
+                        + "Preencha todos os campos obrigatórios (*)\n"
+                        ,"Campos Vazio", JOptionPane.ERROR_MESSAGE
+                );
+            
+                return;
             }
+
+            pst.executeUpdate();
+            
+            JOptionPane.showMessageDialog(null,
+                    "OS Emitida com Sucesso!\n\n"
+                    + "Ordem de serviço Emitida com Sucesso!\n"
+                    ,
+                    "OS Emitida com Sucesso!", JOptionPane.INFORMATION_MESSAGE
+            );
+            
+            clearFieldsAndEnableButtons();
+            lastOsGenerated();
+        } catch(Exception ex){
+            JOptionPane.showMessageDialog(null,
+                    "Erro Ao Emitir OS\n\n"
+                    + "Ocorreu um erro inesperado ao\n"
+                    + "tentar Emitir Os, Reinicie o sistema\n"
+                    + "e tente novamente!",
+                    "Erro Ao Emitir OS", JOptionPane.ERROR_MESSAGE
+            );
+            connectDataBase();
         }
     }
-    
-    // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JPanel OsPanel;
-    private javax.swing.JButton btnCreate;
-    private javax.swing.JButton btnDelete;
-    private javax.swing.JButton btnPrinter;
-    private javax.swing.JButton btnRead;
-    private javax.swing.JButton btnUpdate;
-    private javax.swing.JRadioButton budget;
-    private javax.swing.ButtonGroup buttonGroup1;
-    private javax.swing.JTextField clientId;
-    private javax.swing.JTextField clientName;
-    private javax.swing.JPanel clientPanel;
-    private javax.swing.JLabel clienteId;
-    private javax.swing.JTable clienteTable;
-    private javax.swing.JComboBox<String> comboSituation;
-    private javax.swing.JTextField defect;
-    private javax.swing.JTextField equipament;
-    private javax.swing.JLabel lblDate;
-    private javax.swing.JLabel lblDefect;
-    private javax.swing.JLabel lblEquipment;
-    private javax.swing.JLabel lblId;
-    private javax.swing.JLabel lblOs;
-    private javax.swing.JLabel lblService;
-    private javax.swing.JLabel lblSituation;
-    private javax.swing.JLabel lblTechnician;
-    private javax.swing.JLabel lblTotalValue;
-    private javax.swing.JRadioButton orderOfService;
-    private javax.swing.JTextField osDate;
-    private javax.swing.JTextField osNumber;
-    private javax.swing.JTextField service;
-    private javax.swing.JScrollPane tableClients;
-    private javax.swing.JTextField technican;
-    private javax.swing.JTextField totalValue;
-    // End of variables declaration//GEN-END:variables
 }
