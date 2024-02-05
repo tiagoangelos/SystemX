@@ -222,6 +222,26 @@ public class SystemXUsers extends javax.swing.JInternalFrame {
     private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
         delete();
     }//GEN-LAST:event_btnDeleteActionPerformed
+        
+    // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnCreate;
+    private javax.swing.JButton btnDelete;
+    private javax.swing.JButton btnRead;
+    private javax.swing.JButton btnUpdate;
+    private javax.swing.JTextField idUser;
+    private javax.swing.JComboBox<String> jComboProfile;
+    private javax.swing.JLabel lblId;
+    private javax.swing.JLabel lblMandatory;
+    private javax.swing.JLabel lblName;
+    private javax.swing.JLabel lblPass;
+    private javax.swing.JLabel lblProfile;
+    private javax.swing.JLabel lblTelephone;
+    private javax.swing.JLabel lblUser;
+    private javax.swing.JTextField loginUser;
+    private javax.swing.JTextField nameUser;
+    private javax.swing.JTextField passUser;
+    private javax.swing.JTextField phoneUser;
+    // End of variables declaration//GEN-END:variables
     
     private void clearFields(){
         nameUser.setText(null);
@@ -231,7 +251,150 @@ public class SystemXUsers extends javax.swing.JInternalFrame {
         
         jComboProfile.setSelectedIndex(0);
     }
+    
+    public void delete(){
+        String sql = "delete from tbusuarios where iduser = ?";
+        String id = idUser.getText();
         
+        if(id.isEmpty()){
+            JOptionPane.showMessageDialog(null,
+                "Nenhum Usúario Selecionado \n\n"
+              + "Selecione um usúario para apagar! \n"
+              ,"Nenhum Usúario Selecionado ", JOptionPane.INFORMATION_MESSAGE
+            );
+            
+            return;
+        }
+        
+        int response = JOptionPane.showConfirmDialog(null, 
+                "Tem certeza que deseja apagar\n "
+              + "este usuario?"
+              , "Tem Certeza", JOptionPane.YES_NO_OPTION
+        );
+        
+        if(response != JOptionPane.YES_OPTION){
+            return;
+        }
+            
+        try {        
+            pst = connect.prepareStatement(sql);
+            pst.setString(1, id);            
+            pst.execute();
+            
+            JOptionPane.showMessageDialog(null,
+                "Usúario Apagado \n\n"
+              + "usúario apagado com sucesso! \n"
+              ,"Usúario Apagado", JOptionPane.INFORMATION_MESSAGE
+            );
+            
+            clearFields();
+        }catch(Exception ex){
+            JOptionPane.showMessageDialog(null,
+                    "Sistema Indiponível \n\n"
+                    + "Verifique sua conexão com a internet \n"
+                    + "ou entre em contato com o desenvolvedor \n"
+                    + "do sistema!",
+                    "Sistema Indiponível", JOptionPane.ERROR_MESSAGE
+            );    
+            connectDataBase();
+        }
+    }
+    
+    public void update(){
+        String sql = "update tbusuarios set usuario = ?, fone = ?, login = ?, senha = ?, perfil = ? where iduser = ?";    
+        
+        String id = idUser.getText();
+        String user = nameUser.getText();
+        String phone = phoneUser.getText();
+        String login = loginUser.getText();
+        String password = passUser.getText();
+        String profile = Integer.toString(jComboProfile.getSelectedIndex());
+        
+        if(profile.equals("0")){
+            profile = "admin";
+        }else{
+            profile = "user";
+        }
+        
+        try {        
+            pst = connect.prepareStatement(sql);
+            pst.setString(1, user);
+            pst.setString(2, phone);
+            pst.setString(3, login);
+            pst.setString(4, password);
+            pst.setString(5, profile);
+            pst.setString(6, id);
+            
+            pst.executeUpdate();
+            
+            JOptionPane.showMessageDialog(null,
+                "Dados Atualizados \n\n"
+              + "Dados atualizados com sucesso! \n"
+              ,"Dados Atualizados", JOptionPane.INFORMATION_MESSAGE
+            );
+            
+        }catch(Exception ex){
+            JOptionPane.showMessageDialog(null,
+                    "Sistema Indiponível \n\n"
+                    + "Verifique sua conexão com a internet \n"
+                    + "ou entre em contato com o desenvolvedor \n"
+                    + "do sistema!",
+                    "Sistema Indiponível", JOptionPane.ERROR_MESSAGE
+            );     
+            connectDataBase();
+        }
+    }
+     
+    private void read(){
+        String sql = "select * from tbusuarios where iduser = ?";
+        String id = idUser.getText();
+        
+        try {
+            pst = connect.prepareStatement(sql);
+            pst.setString(1, id);
+            resultSet = pst.executeQuery();
+            
+            if(resultSet.next()){
+                String name = resultSet.getString(2);
+                String phone = resultSet.getString(3);
+                String login = resultSet.getString(4);
+                String password = resultSet.getString(5);
+                String profile = resultSet.getString(6);
+                
+                nameUser.setText(name);
+                phoneUser.setText(phone);
+                loginUser.setText(login);
+                passUser.setText(password);
+                
+                if(profile.equals("admin")){
+                    jComboProfile.setSelectedIndex(0);
+                }else{
+                    jComboProfile.setSelectedIndex(1);
+                }
+            }else{
+                JOptionPane.showMessageDialog(null,
+                    "Usuário Não Encontrado \n\n"
+                    + "O usúario pesquisado não existe! \n"
+                    + "Verifique se os dados estão corretos... \n"
+                    ,"Usuário Não Encontrado", JOptionPane.ERROR_MESSAGE
+                );
+                
+                clearFields();
+            }
+            
+        }catch (Exception ex){
+            JOptionPane.showMessageDialog(null,
+                    "Sistema Indiponível \n\n"
+                    + "Verifique sua conexão com a internet \n"
+                    + "ou entre em contato com o desenvolvedor \n"
+                    + "do sistema!",
+                    "Sistema Indiponível", JOptionPane.ERROR_MESSAGE
+            );     
+            clearFields();
+            connectDataBase();
+        }
+    }
+    
     private void create(){
         String sql = "insert into tbusuarios (iduser, usuario, fone, login, senha, perfil) values (?, ?, ?, ?, ?, ?)";
         String id = idUser.getText();
@@ -285,167 +448,4 @@ public class SystemXUsers extends javax.swing.JInternalFrame {
             );     
         }
     }
-    
-    private void read(){
-        String sql = "select * from tbusuarios where iduser = ?";
-        String id = idUser.getText();
-        
-        try {
-            pst = connect.prepareStatement(sql);
-            pst.setString(1, id);
-            resultSet = pst.executeQuery();
-            
-            if(resultSet.next()){
-                String name = resultSet.getString(2);
-                String phone = resultSet.getString(3);
-                String login = resultSet.getString(4);
-                String password = resultSet.getString(5);
-                String profile = resultSet.getString(6);
-                
-                nameUser.setText(name);
-                phoneUser.setText(phone);
-                loginUser.setText(login);
-                passUser.setText(password);
-                
-                if(profile.equals("admin")){
-                    jComboProfile.setSelectedIndex(0);
-                }else{
-                    jComboProfile.setSelectedIndex(1);
-                }
-            }else{
-                JOptionPane.showMessageDialog(null,
-                    "Usuário Não Encontrado \n\n"
-                    + "O usúario pesquisado não existe! \n"
-                    + "Verifique se os dados estão corretos... \n"
-                    ,"Usuário Não Encontrado", JOptionPane.ERROR_MESSAGE
-                );
-                
-                clearFields();
-            }
-            
-        }catch (Exception ex){
-            JOptionPane.showMessageDialog(null,
-                    "Sistema Indiponível \n\n"
-                    + "Verifique sua conexão com a internet \n"
-                    + "ou entre em contato com o desenvolvedor \n"
-                    + "do sistema!",
-                    "Sistema Indiponível", JOptionPane.ERROR_MESSAGE
-            );     
-            clearFields();
-            connectDataBase();
-        }
-    }
-    
-    public void update(){
-        String sql = "update tbusuarios set usuario = ?, fone = ?, login = ?, senha = ?, perfil = ? where iduser = ?";    
-        
-        String id = idUser.getText();
-        String user = nameUser.getText();
-        String phone = phoneUser.getText();
-        String login = loginUser.getText();
-        String password = passUser.getText();
-        String profile = Integer.toString(jComboProfile.getSelectedIndex());
-        
-        if(profile.equals("0")){
-            profile = "admin";
-        }else{
-            profile = "user";
-        }
-        
-        try {        
-            pst = connect.prepareStatement(sql);
-            pst.setString(1, user);
-            pst.setString(2, phone);
-            pst.setString(3, login);
-            pst.setString(4, password);
-            pst.setString(5, profile);
-            pst.setString(6, id);
-            
-            pst.executeUpdate();
-            
-            JOptionPane.showMessageDialog(null,
-                "Dados Atualizados \n\n"
-              + "Dados atualizados com sucesso! \n"
-              ,"Dados Atualizados", JOptionPane.INFORMATION_MESSAGE
-            );
-            
-        }catch(Exception ex){
-            JOptionPane.showMessageDialog(null,
-                    "Sistema Indiponível \n\n"
-                    + "Verifique sua conexão com a internet \n"
-                    + "ou entre em contato com o desenvolvedor \n"
-                    + "do sistema!",
-                    "Sistema Indiponível", JOptionPane.ERROR_MESSAGE
-            );     
-            connectDataBase();
-        }
-    }
-    
-    public void delete(){
-        String sql = "delete from tbusuarios where iduser = ?";
-        String id = idUser.getText();
-        
-        if(id.isEmpty()){
-            JOptionPane.showMessageDialog(null,
-                "Nenhum Usúario Selecionado \n\n"
-              + "Selecione um usúario para apagar! \n"
-              ,"Nenhum Usúario Selecionado ", JOptionPane.INFORMATION_MESSAGE
-            );
-            
-            return;
-        }
-        
-        int response = JOptionPane.showConfirmDialog(null, 
-                "Tem certeza que deseja apagar\n "
-              + "este usuario?"
-              , "Tem Certeza", JOptionPane.YES_NO_OPTION
-        );
-        
-        if(response != JOptionPane.YES_OPTION){
-            return;
-        }
-            
-        try {        
-            pst = connect.prepareStatement(sql);
-            pst.setString(1, id);            
-            pst.execute();
-            
-            JOptionPane.showMessageDialog(null,
-                "Usúario Apagado \n\n"
-              + "usúario apagado com sucesso! \n"
-              ,"Usúario Apagado", JOptionPane.INFORMATION_MESSAGE
-            );
-            
-            clearFields();
-        }catch(Exception ex){
-            JOptionPane.showMessageDialog(null,
-                    "Sistema Indiponível \n\n"
-                    + "Verifique sua conexão com a internet \n"
-                    + "ou entre em contato com o desenvolvedor \n"
-                    + "do sistema!",
-                    "Sistema Indiponível", JOptionPane.ERROR_MESSAGE
-            );    
-            connectDataBase();
-        }
-    }
-     
-    // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btnCreate;
-    private javax.swing.JButton btnDelete;
-    private javax.swing.JButton btnRead;
-    private javax.swing.JButton btnUpdate;
-    private javax.swing.JTextField idUser;
-    private javax.swing.JComboBox<String> jComboProfile;
-    private javax.swing.JLabel lblId;
-    private javax.swing.JLabel lblMandatory;
-    private javax.swing.JLabel lblName;
-    private javax.swing.JLabel lblPass;
-    private javax.swing.JLabel lblProfile;
-    private javax.swing.JLabel lblTelephone;
-    private javax.swing.JLabel lblUser;
-    private javax.swing.JTextField loginUser;
-    private javax.swing.JTextField nameUser;
-    private javax.swing.JTextField passUser;
-    private javax.swing.JTextField phoneUser;
-    // End of variables declaration//GEN-END:variables
 }

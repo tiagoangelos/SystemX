@@ -263,18 +263,26 @@ public class SystemXClient extends javax.swing.JInternalFrame {
         clearFields();
     }//GEN-LAST:event_formInternalFrameActivated
     
-    private void clearFields(){
-        searchUser.setText(null);
-        ((DefaultTableModel) tableUsers.getModel()).setRowCount(0);
-        
-        idUser.setText(null);
-        nameUser.setText(null);
-        addressUser.setText(null);
-        phoneUser.setText(null);
-        emailUser.setText(null);
-        btnCreate.setEnabled(true);
-    }
-        
+    // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JTextField addressUser;
+    private javax.swing.JButton btnCreate;
+    private javax.swing.JButton btnDelete;
+    private javax.swing.JLabel btnSearch;
+    private javax.swing.JButton btnUpdate;
+    private javax.swing.JTextField emailUser;
+    private javax.swing.JTextField idUser;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JLabel lblAddress;
+    private javax.swing.JLabel lblId;
+    private javax.swing.JLabel lblMail;
+    private javax.swing.JLabel lblName;
+    private javax.swing.JLabel lblTelephone;
+    private javax.swing.JTextField nameUser;
+    private javax.swing.JTextField phoneUser;
+    private javax.swing.JTextField searchUser;
+    private javax.swing.JTable tableUsers;
+    // End of variables declaration//GEN-END:variables
+    
     private void setFieldsClient(){
         int setFields = tableUsers.getSelectedRow();
         
@@ -313,47 +321,56 @@ public class SystemXClient extends javax.swing.JInternalFrame {
             ); 
         }
     }
+    
+    private void clearFields(){
+        searchUser.setText(null);
+        ((DefaultTableModel) tableUsers.getModel()).setRowCount(0);
         
-    private void create(){
-        String sql = "insert into dbsystemx.tbclientes (nomecli, endcli, fonecli, emailcli) values (?, ?, ?, ?)";
-        String name = nameUser.getText();
-        String address = addressUser.getText();
-        String phone = phoneUser.getText();
-        String email = emailUser.getText();
-
-        if(nameUser.getText().isEmpty() || phoneUser.getText().isEmpty()){
-            JOptionPane.showMessageDialog(null,
-                    "Campos Vazio\n\n"
-                    + "Preencha todos os campos obrigatórios (*)\n"
-                    ,"Campos Vazio", JOptionPane.ERROR_MESSAGE
-            );
+        idUser.setText(null);
+        nameUser.setText(null);
+        addressUser.setText(null);
+        phoneUser.setText(null);
+        emailUser.setText(null);
+        btnCreate.setEnabled(true);
+    }
+    
+    private void delete(){
+        int response = JOptionPane.showConfirmDialog(null, 
+                "Tem certeza que deseja apagar\n "
+              + "este cliente?"
+              , "Tem Certeza", JOptionPane.YES_NO_OPTION
+        );
+        
+        if(response != JOptionPane.YES_OPTION){
             return;
         }
         
-        try{
+        int setFields = tableUsers.getSelectedRow();
+        String idCli = tableUsers.getModel().getValueAt(setFields, 0).toString();
+        
+        String sql = "delete from dbsystemx.tbclientes where idcli = ?";
+        
+        try {        
             pst = connect.prepareStatement(sql);
-            pst.setString(1, name);
-            pst.setString(2, address);
-            pst.setString(3, phone);
-            pst.setString(4, email);
-            
-            pst.executeUpdate();
+            pst.setString(1, idCli);            
+            pst.execute();
             
             JOptionPane.showMessageDialog(null,
-                "Cliente Cadastrado \n\n"
-              + "O cliente foi cadastrado com sucesso! \n"
-              ,"Cliente Cadastrado", JOptionPane.INFORMATION_MESSAGE
+                "Usúario Apagado \n\n"
+              + "usúario apagado com sucesso! \n"
+              ,"Usúario Apagado", JOptionPane.INFORMATION_MESSAGE
             );
-                
-            clearFields();            
+            
+            clearFields();
         }catch(Exception ex){
             JOptionPane.showMessageDialog(null,
-                    "Erro ao Cadastrar\n\n"
+                    "Erro ao Apagar\n\n"
                     + "Ocorreu um erro inesperado ao\n"
-                    + "tentar cadastrar, Reinicie o sistema\n"
+                    + "tentar Apagar, Reinicie o sistema\n"
                     + "e tente novamente!",
-                    "Erro ao Cadastrar", JOptionPane.ERROR_MESSAGE
+                    "Erro ao Apagar", JOptionPane.ERROR_MESSAGE
             );     
+            connectDataBase();
         }
     }
     
@@ -405,63 +422,46 @@ public class SystemXClient extends javax.swing.JInternalFrame {
         }
     }
     
-    private void delete(){
-        int response = JOptionPane.showConfirmDialog(null, 
-                "Tem certeza que deseja apagar\n "
-              + "este cliente?"
-              , "Tem Certeza", JOptionPane.YES_NO_OPTION
-        );
-        
-        if(response != JOptionPane.YES_OPTION){
+    private void create(){
+        String sql = "insert into dbsystemx.tbclientes (nomecli, endcli, fonecli, emailcli) values (?, ?, ?, ?)";
+        String name = nameUser.getText();
+        String address = addressUser.getText();
+        String phone = phoneUser.getText();
+        String email = emailUser.getText();
+
+        if(nameUser.getText().isEmpty() || phoneUser.getText().isEmpty()){
+            JOptionPane.showMessageDialog(null,
+                    "Campos Vazio\n\n"
+                    + "Preencha todos os campos obrigatórios (*)\n"
+                    ,"Campos Vazio", JOptionPane.ERROR_MESSAGE
+            );
             return;
         }
         
-        int setFields = tableUsers.getSelectedRow();
-        String idCli = tableUsers.getModel().getValueAt(setFields, 0).toString();
-        
-        String sql = "delete from dbsystemx.tbclientes where idcli = ?";
-        
-        try {        
+        try{
             pst = connect.prepareStatement(sql);
-            pst.setString(1, idCli);            
-            pst.execute();
+            pst.setString(1, name);
+            pst.setString(2, address);
+            pst.setString(3, phone);
+            pst.setString(4, email);
+            
+            pst.executeUpdate();
             
             JOptionPane.showMessageDialog(null,
-                "Usúario Apagado \n\n"
-              + "usúario apagado com sucesso! \n"
-              ,"Usúario Apagado", JOptionPane.INFORMATION_MESSAGE
+                "Cliente Cadastrado \n\n"
+              + "O cliente foi cadastrado com sucesso! \n"
+              ,"Cliente Cadastrado", JOptionPane.INFORMATION_MESSAGE
             );
-            
-            clearFields();
+                
+            clearFields();            
         }catch(Exception ex){
             JOptionPane.showMessageDialog(null,
-                    "Erro ao Apagar\n\n"
+                    "Erro ao Cadastrar\n\n"
                     + "Ocorreu um erro inesperado ao\n"
-                    + "tentar Apagar, Reinicie o sistema\n"
+                    + "tentar cadastrar, Reinicie o sistema\n"
                     + "e tente novamente!",
-                    "Erro ao Apagar", JOptionPane.ERROR_MESSAGE
+                    "Erro ao Cadastrar", JOptionPane.ERROR_MESSAGE
             );     
-            connectDataBase();
         }
     }
- 
-    // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JTextField addressUser;
-    private javax.swing.JButton btnCreate;
-    private javax.swing.JButton btnDelete;
-    private javax.swing.JLabel btnSearch;
-    private javax.swing.JButton btnUpdate;
-    private javax.swing.JTextField emailUser;
-    private javax.swing.JTextField idUser;
-    private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JLabel lblAddress;
-    private javax.swing.JLabel lblId;
-    private javax.swing.JLabel lblMail;
-    private javax.swing.JLabel lblName;
-    private javax.swing.JLabel lblTelephone;
-    private javax.swing.JTextField nameUser;
-    private javax.swing.JTextField phoneUser;
-    private javax.swing.JTextField searchUser;
-    private javax.swing.JTable tableUsers;
-    // End of variables declaration//GEN-END:variables
 }

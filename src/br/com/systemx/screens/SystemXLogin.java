@@ -28,74 +28,7 @@ public class SystemXLogin extends javax.swing.JFrame {
             dbStatus.setIcon(new ImageIcon(getClass().getResource("/br/com/systemx/icons/dberror.png")));
         }
     }
-    
-    public void login() {
-        String sql = "select * from tbusuarios where login = ? and senha = ?";
-        String user = new String(textUser.getText());
-        String pass = new String(textPass.getPassword());
-        
-        try {
-            pst = connect.prepareStatement(sql);
-            pst.setString(1, user);
-            pst.setString(2, pass);
 
-            resultSet = pst.executeQuery();
-
-            if (resultSet.next()) {
-                String profile = resultSet.getString(6);
-                
-                if(profile.equals("admin")){
-                    systemXHome.menuUser.setEnabled(true);
-                    systemXHome.menuReport.setEnabled(true);
-                    systemXHome.lblUser.setForeground(Color.RED);
-                }else{
-                    systemXHome.menuUser.setEnabled(false);
-                    systemXHome.menuReport.setEnabled(false);
-                    systemXHome.lblUser.setForeground(Color.BLACK);
-                }
-                                
-                systemXHome.lblUser.setText(resultSet.getString(2));
-                
-                this.dispose();
-                connect.close();
-                systemXHome.setVisible(true);
-            } else {
-                JOptionPane.showMessageDialog(null,
-                        "Login Inválido!\n\n"
-                        + "Usuário e/ou Senha Inválido! \n"
-                        + "Verifique o Usuário e Senha\n"
-                        + "Ou Fale Com o Administrador Do Sistema.",
-                        "Login Inválido!", JOptionPane.ERROR_MESSAGE
-                );
-                
-                
-            }
-        } catch (Exception ex) {
-            JOptionPane.showMessageDialog(null,
-                    "Sistema Indiponível \n\n"
-                    + "Verifique Sua Conexão Com a Internet \n"
-                    + "Ou Entre em Contato com o Desenvolvedor \n"
-                    + "Do Sistema!",
-                    "Sistema Indiponível", JOptionPane.ERROR_MESSAGE
-            );
-            
-            connectDataBase();
-        }
-    }
-
-    public void verifyEmptyFields() {
-        if (textUser.getText().equals("") || textPass.getPassword().equals("")) {
-            JOptionPane.showMessageDialog(null,
-                    "Campos Vazio! \n\n"
-                    + "Informe o Usuario e Senha \n"
-                    + "Corretamente! \n"
-                    , "Campos Vazio!", JOptionPane.INFORMATION_MESSAGE
-            );
-        } else {
-            login();
-        }
-    }
-    
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -262,4 +195,71 @@ public class SystemXLogin extends javax.swing.JFrame {
     private javax.swing.JPasswordField textPass;
     private javax.swing.JTextField textUser;
     // End of variables declaration//GEN-END:variables
+    
+    public void verifyEmptyFields() {
+        if (textUser.getText().equals("") || textPass.getPassword().equals("")) {
+            JOptionPane.showMessageDialog(null,
+                    "Campos Vazio! \n\n"
+                    + "Informe o Usuario e Senha \n"
+                    + "Corretamente! \n"
+                    , "Campos Vazio!", JOptionPane.INFORMATION_MESSAGE
+            );
+        } else {
+            login();
+        }
+    }
+    
+    public void login() {
+        String sql = "select * from tbusuarios where login = ? and senha = ?";
+        String user = new String(textUser.getText());
+        String pass = new String(textPass.getPassword());
+        
+        try {
+            pst = connect.prepareStatement(sql);
+            pst.setString(1, user);
+            pst.setString(2, pass);
+
+            resultSet = pst.executeQuery();
+
+            if (resultSet.next()) {
+                String profile = resultSet.getString(6);
+                
+                if(profile.equals("admin")){
+                    systemXHome.menuUser.setEnabled(true);
+                    systemXHome.menuReport.setEnabled(true);
+                    systemXHome.lblUser.setForeground(Color.RED);
+                }else{
+                    systemXHome.menuUser.setEnabled(false);
+                    systemXHome.menuReport.setEnabled(false);
+                    systemXHome.lblUser.setForeground(Color.BLACK);
+                }
+                                
+                systemXHome.lblUser.setText(resultSet.getString(2));
+                
+                this.dispose();
+                connect.close();
+                systemXHome.setVisible(true);
+            } else {
+                JOptionPane.showMessageDialog(null,
+                        "Login Inválido!\n\n"
+                        + "Usuário e/ou Senha Inválido! \n"
+                        + "Verifique o Usuário e Senha\n"
+                        + "Ou Fale Com o Administrador Do Sistema.",
+                        "Login Inválido!", JOptionPane.ERROR_MESSAGE
+                );
+                
+                
+            }
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(null,
+                    "Sistema Indiponível \n\n"
+                    + "Verifique Sua Conexão Com a Internet \n"
+                    + "Ou Entre em Contato com o Desenvolvedor \n"
+                    + "Do Sistema!",
+                    "Sistema Indiponível", JOptionPane.ERROR_MESSAGE
+            );
+            
+            connectDataBase();
+        }
+    }
 }
