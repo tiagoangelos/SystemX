@@ -33,7 +33,7 @@ Tecnologias que são abordadas neste tutorial:
 - Java SE
 - JDBC (Java Database Connectivity)
 - Validação de dados
-- Uso do framework iReport para gerar relatórios
+- Uso do framework JasperSoft Studio para gerar relatórios
 
 ### SystemX projeto para servir de Apóio para construir sistemas para assistências técnicas, hoteis etc...
 
